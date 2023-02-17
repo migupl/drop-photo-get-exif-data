@@ -14,10 +14,16 @@ function dragOverHandler(ev) {
 
 _addImages = images => {
     const container = document.getElementById('images-dragged');
+    const template = document.querySelector('#photo-item');
+
     images.forEach(image => {
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(image) ;
-        container.appendChild(img);
+        const clone = template.content.cloneNode(true);
+
+        const img = clone.querySelector('img');
+        img.src = URL.createObjectURL(image);
+        img.alt = image.name;
+
+        container.appendChild(clone);
     });
 }
 

@@ -27,6 +27,23 @@
             padding-bottom: 10px;
             fill: #3c3c3c;
         }
+
+        #images-dragged {
+            border-radius: 10px;
+            border-style: solid;
+            border-color: lightgray;
+        }
+
+        .container {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+        }
+
+        img {
+            height: 100%;
+            width: 100px;
+        }
     </style>
 </head>
 
@@ -46,7 +63,14 @@
             </svg>
         </div>
     </header>
-    <section id="images-dragged"></section>
+    <section id="images-dragged" class="container"></section>
+
+    <template id="photo-item">
+        <div class="ïtem">
+            <img>
+            <span></span>
+        </div>
+    </template>
 </body>
 
 </html>
