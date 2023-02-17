@@ -5,13 +5,20 @@ function dropHandler(ev) {
     const files = _collectFiles(ev);
     const images = _collectImages(files);
 
-    images.forEach((image) => {
-        console.log(`… image.name = ${image.name}`);
-    });
+    _addImages(images);
 }
 
 function dragOverHandler(ev) {
     ev.preventDefault();
+}
+
+_addImages = images => {
+    const container = document.getElementById('images-dragged');
+    images.forEach(image => {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(image) ;
+        container.appendChild(img);
+    });
 }
 
 _collectFiles = event => {
