@@ -23,6 +23,11 @@ _addImages = images => {
         img.src = URL.createObjectURL(image);
         img.alt = image.name;
 
+        const exif = clone.querySelector('code');
+        _extractExif(image)
+            .then((exifData) => exif.innerText = JSON.stringify(exifData, null, 2))
+            .catch((error) => console.log(error));
+
         container.appendChild(clone);
     });
 }
@@ -44,3 +49,8 @@ _collectFiles = event => {
 }
 
 _collectImages = files => files.filter(file => file.type.startsWith('image/'));
+
+const _extractExif = async function (file) {
+    let exif = await ExifReader.load(file);
+    return exif;
+}
