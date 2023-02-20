@@ -9,6 +9,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 
+    <script src="https://cdn.jsdelivr.net/npm/exifreader"></script>
     <script src="./js/drop-photos.js"></script>
 
     <style>
@@ -28,21 +29,27 @@
             fill: #3c3c3c;
         }
 
-        #images-dragged {
-            border-radius: 10px;
-            border-style: solid;
-            border-color: lightgray;
-        }
-
         .container {
             display: flex;
             flex-flow: row wrap;
-            justify-content: flex-start;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        img {
-            height: 100%;
-            width: 100px;
+        .item {
+            border-radius: 5px;
+            border-style: solid;
+            border-color: #3c3c3c;;
+            width: 30%;
+            max-height: max(10rem, 30vh);
+            overflow-y: scroll;
+            margin: 5px 5px;
+        }
+
+        .item img {
+            border-radius: 0.5rem 0.5rem 0 0;
+            max-width: 100%;
+            max-height: max(10rem, 30vh);
         }
     </style>
 </head>
@@ -66,9 +73,9 @@
     <section id="images-dragged" class="container"></section>
 
     <template id="photo-item">
-        <div class="ïtem">
+        <div class="item">
             <img>
-            <span></span>
+            <pre><code></code></pre>
         </div>
     </template>
 </body>
