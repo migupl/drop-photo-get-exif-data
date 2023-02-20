@@ -9,6 +9,9 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/agate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/exifreader"></script>
     <script src="./js/drop-photos.js"></script>
 
@@ -39,7 +42,8 @@
         .item {
             border-radius: 5px;
             border-style: solid;
-            border-color: #3c3c3c;;
+            border-color: #3c3c3c;
+            ;
             width: 30%;
             max-height: max(10rem, 30vh);
             overflow-y: scroll;
@@ -50,6 +54,8 @@
             border-radius: 0.5rem 0.5rem 0 0;
             max-width: 100%;
             max-height: max(10rem, 30vh);
+            margin: auto;
+            display: block;
         }
     </style>
 </head>
@@ -75,7 +81,7 @@
     <template id="photo-item">
         <div class="item">
             <img>
-            <pre><code></code></pre>
+            <pre><code class="hljs language-json"></code></pre>
         </div>
     </template>
 </body>

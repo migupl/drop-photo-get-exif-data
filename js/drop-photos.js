@@ -25,7 +25,22 @@ _addImages = images => {
 
         const exif = clone.querySelector('code');
         _extractExif(image)
-            .then((exifData) => exif.innerText = JSON.stringify(exifData, null, 2))
+            .then((exifData) => {
+                const summary = {
+                    Camera: exifData.Model.description,
+                    Date: exifData.DateTime.description,
+                    Location: `${exifData.GPSLatitude.description} ${exifData.GPSLatitudeRef.value[0]}, ${exifData.GPSLongitude.description} ${exifData.GPSLongitudeRef.value[0]}`
+                }
+                exif.innerHTML = [
+                    hljs
+                    .highlight(JSON.stringify(summary, null, 2), { language: 'json' })
+                    .value,
+                "Full Metadata",
+                hljs
+                    .highlight(JSON.stringify(exifData, null, 2), { language: 'json' })
+                    .value
+                ].join('\n');
+            })
             .catch((error) => console.log(error));
 
         container.appendChild(clone);
