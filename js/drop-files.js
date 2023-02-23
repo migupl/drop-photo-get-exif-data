@@ -13,18 +13,16 @@ class DropFiles {
             img.src = URL.createObjectURL(image);
             img.alt = image.name;
 
-            const code = clone.querySelector('code');
+            const summary = clone.getElementById('summary');
+            const details = clone.getElementById('details');
             exifData.extractExif(image)
                 .then((exif) => {
-                    code.innerHTML = [
-                        hljs
-                            .highlight(JSON.stringify(exif.summary, null, 2), { language: 'json' })
-                            .value,
-                        "Full Metadata",
-                        hljs
-                            .highlight(JSON.stringify(exif.details, null, 2), { language: 'json' })
-                            .value
-                    ].join('\n');
+                    summary.innerHTML = hljs
+                        .highlight(JSON.stringify(exif.summary, null, 2), { language: 'json' })
+                        .value;
+                    details.innerHTML = hljs
+                        .highlight(JSON.stringify(exif.details, null, 2), { language: 'json' })
+                        .value;
                 })
                 .catch((error) => console.log(error));
 
