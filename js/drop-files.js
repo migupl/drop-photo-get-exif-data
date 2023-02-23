@@ -1,3 +1,5 @@
+import { exifData } from "./exif-data.js";
+
 class DropFiles {
 
     addImages = images => {
@@ -12,7 +14,7 @@ class DropFiles {
             img.alt = image.name;
 
             const code = clone.querySelector('code');
-            this.#extractExif(image)
+            exifData.extractExif(image)
                 .then((exif) => {
                     const summary = {
                         Camera: exif.Model.description,
@@ -52,11 +54,6 @@ class DropFiles {
     }
 
     collectImages = files => files.filter(file => file.type.startsWith('image/'));
-
-    async #extractExif(file) {
-        let exif = await ExifReader.load(file);
-        return exif;
-    }
 }
 
 const dropFiles = new DropFiles();
