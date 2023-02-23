@@ -17,12 +17,8 @@ class DropFiles {
             const details = clone.getElementById('details');
             exifData.extractExif(image)
                 .then((exif) => {
-                    summary.innerHTML = hljs
-                        .highlight(JSON.stringify(exif.summary, null, 2), { language: 'json' })
-                        .value;
-                    details.innerHTML = hljs
-                        .highlight(JSON.stringify(exif.details, null, 2), { language: 'json' })
-                        .value;
+                    summary.innerHTML = this.#highlight(exif.summary);
+                    details.innerHTML = this.#highlight(exif.details);
                 })
                 .catch((error) => console.log(error));
 
@@ -47,6 +43,13 @@ class DropFiles {
     }
 
     collectImages = files => files.filter(file => file.type.startsWith('image/'));
+
+    #highlight(json, language = 'json') {
+        const withSpaces = JSON.stringify(json, null, 2)
+        return hljs
+            .highlight(withSpaces, { language: language })
+            .value
+    }
 }
 
 const dropFiles = new DropFiles();
