@@ -1,7 +1,6 @@
 function dropHandler(ev) {
     ev.preventDefault();
 
-    const { items } = ev.dataTransfer;
     const files = _collectFiles(ev);
     const images = _collectImages(files);
 
