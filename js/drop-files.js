@@ -11,21 +11,21 @@ class DropFiles {
             img.src = URL.createObjectURL(image);
             img.alt = image.name;
 
-            const exif = clone.querySelector('code');
+            const code = clone.querySelector('code');
             this.#extractExif(image)
-                .then((exifData) => {
+                .then((exif) => {
                     const summary = {
-                        Camera: exifData.Model.description,
-                        Date: exifData.DateTime.description,
-                        Location: `${exifData.GPSLatitude.description} ${exifData.GPSLatitudeRef.value[0]}, ${exifData.GPSLongitude.description} ${exifData.GPSLongitudeRef.value[0]}`
+                        Camera: exif.Model.description,
+                        Date: exif.DateTime.description,
+                        Location: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}, ${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
                     }
-                    exif.innerHTML = [
+                    code.innerHTML = [
                         hljs
                             .highlight(JSON.stringify(summary, null, 2), { language: 'json' })
                             .value,
                         "Full Metadata",
                         hljs
-                            .highlight(JSON.stringify(exifData, null, 2), { language: 'json' })
+                            .highlight(JSON.stringify(exif, null, 2), { language: 'json' })
                             .value
                     ].join('\n');
                 })
