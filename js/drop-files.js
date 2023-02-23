@@ -16,18 +16,13 @@ class DropFiles {
             const code = clone.querySelector('code');
             exifData.extractExif(image)
                 .then((exif) => {
-                    const summary = {
-                        Camera: exif.Model.description,
-                        Date: exif.DateTime.description,
-                        Location: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}, ${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
-                    }
                     code.innerHTML = [
                         hljs
-                            .highlight(JSON.stringify(summary, null, 2), { language: 'json' })
+                            .highlight(JSON.stringify(exif.summary, null, 2), { language: 'json' })
                             .value,
                         "Full Metadata",
                         hljs
-                            .highlight(JSON.stringify(exif, null, 2), { language: 'json' })
+                            .highlight(JSON.stringify(exif.details, null, 2), { language: 'json' })
                             .value
                     ].join('\n');
                 })
