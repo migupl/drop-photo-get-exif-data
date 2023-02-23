@@ -12,7 +12,7 @@ class DropFiles {
             img.alt = image.name;
 
             const exif = clone.querySelector('code');
-            this._extractExif(image)
+            this.#extractExif(image)
                 .then((exifData) => {
                     const summary = {
                         Camera: exifData.Model.description,
@@ -53,7 +53,7 @@ class DropFiles {
 
     collectImages = files => files.filter(file => file.type.startsWith('image/'));
 
-    async _extractExif(file) {
+    async #extractExif(file) {
         let exif = await ExifReader.load(file);
         return exif;
     }
