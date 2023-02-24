@@ -6,8 +6,8 @@ class DropPhotoForExif extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
 
-        this.addEventListener('drop', (event) => { event.preventDefault() });
-        this.addEventListener('dragover', (event) => { event.preventDefault() });
+        this.#extractExifDataOnDrop();
+        this.#stopBehaviorOnDragOver();
     }
 
     connectedCallback() {
@@ -25,6 +25,14 @@ class DropPhotoForExif extends HTMLElement {
         svg.setAttribute('data', './components/drop-photo-for-exif-component/drop-photo.svg');
         div.appendChild(svg);
     }
+
+    #extractExifDataOnDrop = () => this.addEventListener('drop', (event) => {
+        event.preventDefault();
+    });
+
+    #stopBehaviorOnDragOver = () => this.addEventListener('dragover', (event) => {
+        event.preventDefault()
+    });
 }
 
 customElements.define('drop-photo-for-exif', DropPhotoForExif);
