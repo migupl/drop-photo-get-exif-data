@@ -1,4 +1,4 @@
-import { svgCss } from "./drop-photo-for-exi-dom.js";
+import { svgCss } from "./drop-photo-for-exif-dom.js";
 
 class DropPhotoForExif extends HTMLElement {
 
