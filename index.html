@@ -22,6 +22,10 @@
             border-radius: 10px;
             border-style: dashed;
             margin-bottom: 10px;
+            display: flex;
+            flex-flow: row;
+            justify-content: start;
+            align-items: flex-start;
         }
 
         #drop-image {
@@ -39,6 +43,11 @@
             flex-flow: row wrap;
             justify-content: center;
             align-items: flex-start;
+        }
+
+        .drop-box {
+            border-style: double;
+            width: 50%;
         }
 
         .item {
@@ -64,8 +73,10 @@
 
 <body>
     <header>
-        <drop-photo-for-exif></drop-photo-for-exif>
-        <div id="drop-photos" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <div id="component" class="drop-box">
+            <drop-photo-for-exif></drop-photo-for-exif>
+        </div>
+        <div id="drop-photos" class="drop-box" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
             <svg id="drop-image" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000"
                 preserveAspectRatio="xMidYMid meet">
                 <g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">
