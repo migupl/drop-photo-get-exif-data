@@ -1,4 +1,4 @@
-class ExifData {
+class DropPhotoForExifData {
 
     async extractExif(file) {
         let exif = await ExifReader.load(file);
@@ -13,5 +13,5 @@ class ExifData {
     }
 }
 
-const exifData = new ExifData();
+const exifData = new DropPhotoForExifData();
 export { exifData }

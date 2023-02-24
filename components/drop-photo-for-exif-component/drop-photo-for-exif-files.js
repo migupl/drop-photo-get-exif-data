@@ -1,6 +1,6 @@
-import { exifData } from "./exif-data.js";
+import { exifData } from "./drop-photo-for-exif-data.js";
 
-class DropFiles {
+class DropPhotoForExifFiles {
 
     addImages = images => {
         const container = document.getElementById('images-dragged');
@@ -52,5 +52,5 @@ class DropFiles {
     }
 }
 
-const dropFiles = new DropFiles();
+const dropFiles = new DropPhotoForExifFiles();
 export { dropFiles }
