@@ -1,4 +1,4 @@
-# A simple EXIF data extractor
+# A vanilla javascript Web Component for obtain EXIF data
 
 A simple solution for obtaining EXIF data from photos.
 
