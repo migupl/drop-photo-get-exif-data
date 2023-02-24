@@ -5,6 +5,8 @@ class DropPhotoForExif extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+
+        this.addEventListener('dragover', (event) => { event.preventDefault() });
     }
 
     connectedCallback() {
