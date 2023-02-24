@@ -1,4 +1,4 @@
-import { dropFiles } from "./drop-files.js";
+import { dropFiles } from "../components/drop-photo-for-exif-component/drop-files.js";
 
 window.dropHandler = function (ev) {
     ev.preventDefault();
