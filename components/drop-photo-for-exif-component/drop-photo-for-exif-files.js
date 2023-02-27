@@ -42,7 +42,7 @@ class DropPhotoForExifFiles {
         return files;
     }
 
-    collectImages = files => files.filter(file => file.type.startsWith('image/'));
+    filterImages = files => files.filter(file => file.type.startsWith('image/'));
 
     #highlight(json, language = 'json') {
         const withSpaces = JSON.stringify(json, null, 2)
