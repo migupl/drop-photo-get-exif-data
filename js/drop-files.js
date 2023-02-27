@@ -13,11 +13,11 @@ class DropFiles {
             img.src = URL.createObjectURL(image);
             img.alt = image.name;
 
-            const summary = clone.getElementById('summary');
+            const location = clone.getElementById('location');
             const details = clone.getElementById('details');
             exifData.extractExif(image)
                 .then((exif) => {
-                    summary.innerHTML = this.#highlight(exif.summary);
+                    location.innerHTML = this.#highlight(exif.location);
                     details.innerHTML = this.#highlight(exif.details);
                 })
                 .catch((error) => console.log(error));
