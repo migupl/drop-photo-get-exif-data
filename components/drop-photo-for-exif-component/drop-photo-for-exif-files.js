@@ -6,23 +6,37 @@ class DropPhotoForExifFiles {
         const container = document.getElementById('images-dragged');
         const template = document.querySelector('#photo-item');
 
+        const data = new Array();
+
         images.forEach(image => {
+            const imageData = {
+                name: image.name,
+                image: image,
+                exif: {
+                    summary: null,
+                    details: null
+                }
+            };
+
             const clone = template.content.cloneNode(true);
 
             const img = clone.querySelector('img');
-            img.src = URL.createObjectURL(image);
-            img.alt = image.name;
+            img.src = URL.createObjectURL(imageData.image);
+            img.alt = imageData.name;
 
             const summary = clone.getElementById('summary');
             const details = clone.getElementById('details');
-            exifData.extractExif(image)
+            exifData.extractExif(imageData.image)
                 .then((exif) => {
-                    summary.innerHTML = this.#highlight(exif.summary);
-                    details.innerHTML = this.#highlight(exif.details);
+                    imageData.exif = exif;
+                    summary.innerHTML = this.#highlight(imageData.exif.summary);
+                    details.innerHTML = this.#highlight(imageData.exif.details);
                 })
                 .catch((error) => console.log(error));
 
             container.appendChild(clone);
+
+            data.push(imageData);
         });
     }
 
