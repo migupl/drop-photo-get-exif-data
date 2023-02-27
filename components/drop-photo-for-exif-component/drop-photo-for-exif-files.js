@@ -13,7 +13,7 @@ class DropPhotoForExifFiles {
                 name: image.name,
                 image: image,
                 exif: {
-                    summary: null,
+                    location: null,
                     details: null
                 }
             };
@@ -24,12 +24,12 @@ class DropPhotoForExifFiles {
             img.src = URL.createObjectURL(imageData.image);
             img.alt = imageData.name;
 
-            const summary = clone.getElementById('summary');
+            const location = clone.getElementById('location');
             const details = clone.getElementById('details');
             exifData.extractExif(imageData.image)
                 .then((exif) => {
                     imageData.exif = exif;
-                    summary.innerHTML = this.#highlight(imageData.exif.summary);
+                    location.innerHTML = this.#highlight(imageData.exif.location);
                     details.innerHTML = this.#highlight(imageData.exif.details);
                 })
                 .catch((error) => console.log(error));
