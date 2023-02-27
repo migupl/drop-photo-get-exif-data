@@ -4,7 +4,7 @@ window.dropHandler = function (ev) {
     ev.preventDefault();
 
     const files = dropFiles.collectFiles(ev);
-    const images = dropFiles.collectImages(files);
+    const images = dropFiles.filterImages(files);
 
     dropFiles.addImages(images);
 }
