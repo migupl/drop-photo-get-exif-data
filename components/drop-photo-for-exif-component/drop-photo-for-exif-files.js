@@ -26,7 +26,13 @@ class DropPhotoForExifFiles {
         });
     }
 
-    collectFiles = event => {
+    collectImages = event => {
+        const files = this.#collectFiles(event);
+        const images = this.#filterImages(files);
+        return images;
+    }
+
+    #collectFiles = event => {
         const { items } = event.dataTransfer;
 
         let files;
@@ -42,7 +48,7 @@ class DropPhotoForExifFiles {
         return files;
     }
 
-    filterImages = files => files.filter(file => file.type.startsWith('image/'));
+    #filterImages = files => files.filter(file => file.type.startsWith('image/'));
 
     #highlight(json, language = 'json') {
         const withSpaces = JSON.stringify(json, null, 2)
