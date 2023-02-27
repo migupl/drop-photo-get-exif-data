@@ -2,45 +2,7 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    addImages = images => {
-        const container = document.getElementById('images-dragged');
-        const template = document.querySelector('#photo-item');
-
-        const data = new Array();
-
-        images.forEach(image => {
-            const imageData = {
-                name: image.name,
-                image: image,
-                exif: {
-                    location: null,
-                    details: null
-                }
-            };
-
-            const clone = template.content.cloneNode(true);
-
-            const img = clone.querySelector('img');
-            img.src = URL.createObjectURL(imageData.image);
-            img.alt = imageData.name;
-
-            const location = clone.getElementById('location');
-            const details = clone.getElementById('details');
-            exifData.extractExif(imageData.image)
-                .then((exif) => {
-                    imageData.exif = exif;
-                    location.innerHTML = this.#highlight(imageData.exif.location);
-                    details.innerHTML = this.#highlight(imageData.exif.details);
-                })
-                .catch((error) => console.log(error));
-
-            container.appendChild(clone);
-
-            data.push(imageData);
-        });
-    }
-
-    collectImages = event => {
+    collectImages(event) {
         const files = this.#collectFiles(event);
         const images = this.#filterImages(files);
         return images;
@@ -62,14 +24,32 @@ class DropPhotoForExifFiles {
         return files;
     }
 
-    #filterImages = files => files.filter(file => file.type.startsWith('image/'));
+    #collectExifData = images => {
+        const data = new Array();
+        images.forEach(image => {
+            const imageData = {
+                name: image.name,
+                image: image,
+                exif: {
+                    location: null,
+                    details: null
+                }
+            };
 
-    #highlight(json, language = 'json') {
-        const withSpaces = JSON.stringify(json, null, 2)
-        return hljs
-            .highlight(withSpaces, { language: language })
-            .value
+            exifData.extractExif(imageData.image)
+                .then((exif) => {
+                    imageData.exif = exif;
+                    imageData.location = exif.location;
+                })
+                .catch((error) => console.log(error));
+
+            data.push(imageData);
+        });
+
+        return data;
     }
+
+    #filterImages = files => files.filter(file => file.type.startsWith('image/'));
 }
 
 const dropFiles = new DropPhotoForExifFiles();
