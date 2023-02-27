@@ -3,8 +3,7 @@ import { dropFiles } from "../components/drop-photo-for-exif-component/drop-phot
 window.dropHandler = function (ev) {
     ev.preventDefault();
 
-    const files = dropFiles.collectFiles(ev);
-    const images = dropFiles.filterImages(files);
+    const images = dropFiles.collectImages(ev);
 
     dropFiles.addImages(images);
 }
