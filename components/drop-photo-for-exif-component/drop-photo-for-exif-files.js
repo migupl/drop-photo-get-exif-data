@@ -24,31 +24,6 @@ class DropPhotoForExifFiles {
         return files;
     }
 
-    #collectExifData = images => {
-        const data = new Array();
-        images.forEach(image => {
-            const imageData = {
-                name: image.name,
-                image: image,
-                exif: {
-                    location: null,
-                    details: null
-                }
-            };
-
-            exifData.extractExif(imageData.image)
-                .then((exif) => {
-                    imageData.exif = exif;
-                    imageData.location = exif.location;
-                })
-                .catch((error) => console.log(error));
-
-            data.push(imageData);
-        });
-
-        return data;
-    }
-
     #filterImages = files => files.filter(file => file.type.startsWith('image/'));
 }
 
