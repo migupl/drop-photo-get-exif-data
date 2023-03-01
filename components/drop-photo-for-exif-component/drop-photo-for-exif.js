@@ -1,6 +1,7 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
 import { exifData } from "./drop-photo-for-exif-data.js";
 import { svgCss } from "./drop-photo-for-exif-dom.js";
+import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
 
 class DropPhotoForExif extends HTMLElement {
 
@@ -59,4 +60,11 @@ class DropPhotoForExif extends HTMLElement {
     });
 }
 
-customElements.define('drop-photo-for-exif', DropPhotoForExif);
+
+let exifReaderjs = getExifReaderScript();
+exifReaderjs.onload = function (ev) {
+    customElements.define('drop-photo-for-exif', DropPhotoForExif);
+    exifReaderjs = null;
+}
+
+document.head.append(exifReaderjs);
