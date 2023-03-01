@@ -2,6 +2,43 @@
 
 A simple solution for obtaining EXIF data from photos.
 
+## Install
+
+Copy the directory */components/drop-photo-for-exif-component/* to your project
+
+## Getting started
+
+To get started you need to import the Web Component
+
+```html
+<head>
+    <script type="module" src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+</head>
+<body>
+    <drop-photo-for-exif></drop-photo-for-exif>
+</body>
+```
+
+## Events
+
+The Web Component *drop-photo-for-exif* exposes the following information
+
+```json
+{
+    name: 'the filename for the image',
+    image: File object,
+    location: {
+        latitude: "43.66366 N"
+        longitude: "7.357704 W"
+    },
+    exif: { // EXIF details }
+}
+```
+
+about the images dragged through the event 'drop-photo-for-exif:data'.
+
+See the _index.html_ file for a simple example.
+
 ## Helpers
 
 A [container is used for hot reloading](https://github.com/migupl/hot-reloading-container) during development.
