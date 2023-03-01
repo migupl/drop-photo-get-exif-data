@@ -21,21 +21,56 @@ To get started you need to import the Web Component
 
 ## Events
 
-The Web Component *drop-photo-for-exif* exposes the following information
+The Web Component *drop-photo-for-exif* exposes the following information about the images dragged through the event 'drop-photo-for-exif:data'.
 
-```json
+By example, dragging the image ./assets/favicon.ico of this project you get
+
+```javascript
 {
-    name: 'the filename for the image',
-    image: File object,
-    location: {
-        latitude: "43.66366 N"
-        longitude: "7.357704 W"
-    },
-    exif: { // EXIF details }
+    name: "favicon.ico",
+    image: File { name: "favicon.ico", lastModified: 1676626568947, webkitRelativePath: "", size: 435, type: "image/x-icon" },
+    location: undefined,
+    exif: {
+        "Image Width": {
+            "value": 32,
+            "description": "32px"
+        },
+        "Image Height": {
+            "value": 32,
+            "description": "32px"
+        },
+        "Bit Depth": {
+            "value": 8,
+            "description": "8"
+        },
+        "Color Type": {
+            "value": 6,
+            "description": "RGB with Alpha"
+        },
+        "Compression": {
+            "value": 0,
+            "description": "Deflate/Inflate"
+        },
+        "Filter": {
+            "value": 0,
+            "description": "Adaptive"
+        },
+        "Interlace": {
+            "value": 0,
+            "description": "Noninterlaced"
+        }
+    }
 }
 ```
 
-about the images dragged through the event 'drop-photo-for-exif:data'.
+_location_ is in the form
+
+```javascript
+{
+    latitude: "43.66366 N",
+    longitude: "7.357704 W"
+}
+```
 
 See the _index.html_ file for a simple example.
 
