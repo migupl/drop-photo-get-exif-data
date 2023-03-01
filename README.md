@@ -4,7 +4,7 @@ A simple solution for obtaining EXIF data from photos.
 
 ## Install
 
-Copy the directory */components/drop-photo-for-exif-component/* to your project
+Copy the directory */components/drop-photo-for-exif-component/* to any directory in your project.
 
 ## Getting started
 

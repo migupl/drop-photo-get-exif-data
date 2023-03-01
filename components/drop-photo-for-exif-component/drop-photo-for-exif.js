@@ -1,6 +1,7 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
 import { exifData } from "./drop-photo-for-exif-data.js";
 import { svgCss } from "./drop-photo-for-exif-dom.js";
+import { getDirname } from "./utils.js";
 import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
 
 class DropPhotoForExif extends HTMLElement {
@@ -32,7 +33,10 @@ class DropPhotoForExif extends HTMLElement {
         const svg = document.createElement('object');
         svg.setAttribute('class', 'svg-object');
         svg.setAttribute('type', 'image/svg+xml');
-        svg.setAttribute('data', './components/drop-photo-for-exif-component/drop-photo.svg');
+
+        const dirname = this.#getDirname();
+        svg.setAttribute('data', `${dirname}drop-photo.svg`);
+
         div.appendChild(svg);
     }
 
@@ -60,6 +64,11 @@ class DropPhotoForExif extends HTMLElement {
             detail: imageData
         });
         this.shadowRoot.dispatchEvent(evt);
+    }
+
+    #getDirname = () => {
+        const dirname = getDirname('drop-photo-for-exif.js');
+        return dirname || './components/drop-photo-for-exif-component/';
     }
 
     #stopBehaviorOnDragOver = () => this.addEventListener('dragover', (event) => {
