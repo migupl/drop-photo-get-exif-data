@@ -1,3 +1,5 @@
+import { dropFiles } from "./drop-photo-for-exif-files.js";
+import { exifData } from "./drop-photo-for-exif-data.js";
 import { svgCss } from "./drop-photo-for-exif-dom.js";
 
 class DropPhotoForExif extends HTMLElement {
@@ -28,7 +30,29 @@ class DropPhotoForExif extends HTMLElement {
 
     #extractExifDataOnDrop = () => this.addEventListener('drop', (event) => {
         event.preventDefault();
+
+        dropFiles.collectImages(event)
+            .forEach((image) => {
+                exifData.extractExif(image)
+                    .then((exif) => {
+                        this.#fireExifData({
+                            name: image.name,
+                            image: image,
+                            location: exif.location,
+                            exif: exif.details
+                        });
+                    });
+            });
     });
+
+    #fireExifData = imageData => {
+        const evt = new CustomEvent('drop-photo-for-exif:data', {
+            bubbles: true,
+            composed: true,
+            detail: imageData
+        });
+        this.shadowRoot.dispatchEvent(evt);
+    }
 
     #stopBehaviorOnDragOver = () => this.addEventListener('dragover', (event) => {
         event.preventDefault()
