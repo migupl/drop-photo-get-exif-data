@@ -14,10 +14,17 @@ class DropPhotoForExif extends HTMLElement {
     }
 
     connectedCallback() {
+        this.#addCss();
+        this.#addIcon();
+    }
+
+    #addCss = () => {
         const css = document.createElement('style');
         css.innerHTML = svgCss;
         this.shadowRoot.appendChild(css);
+    }
 
+    #addIcon = () => {
         const div = document.createElement('div');
         div.className = 'svg-container';
         this.shadowRoot.appendChild(div);
@@ -59,7 +66,6 @@ class DropPhotoForExif extends HTMLElement {
         event.preventDefault()
     });
 }
-
 
 let exifReaderjs = getExifReaderScript();
 exifReaderjs.onload = function (ev) {
