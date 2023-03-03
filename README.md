@@ -19,6 +19,8 @@ To get started you need to import the Web Component
 </body>
 ```
 
+You can use the file *index.html* of the project as a small demo.
+
 ## Events
 
 The Web Component *drop-photo-for-exif* exposes the following information about the images dragged through the event 'drop-photo-for-exif:data'.
