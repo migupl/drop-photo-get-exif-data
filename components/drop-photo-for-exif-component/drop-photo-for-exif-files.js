@@ -2,7 +2,7 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    collectImages(event) {
+    collectImages = event => {
         const files = this.#collectFiles(event);
         const images = this.#filterImages(files);
         return images;
