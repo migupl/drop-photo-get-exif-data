@@ -21,7 +21,7 @@ class DropPhotoForExifFiles {
             files = [...event.dataTransfer.files];
         }
 
-        return files;
+        return files || [];
     }
 
     #filterImages = files => files.filter(file => file.type.startsWith('image/'));
