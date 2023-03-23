@@ -38,6 +38,14 @@
             width: 100%;
         }
 
+        .center {
+            text-align: center;
+        }
+
+        .blue {
+            color: #3887BE;
+        }
+
         .item {
             border-radius: 5px;
             border-style: solid;
@@ -66,6 +74,7 @@
 
     <template id="photo-item">
         <div class="item hljs">
+            <p id="filename" class="center blue"></p>
             <img>
             <pre>
                 <code class="hljs">Location</code><code id="location" class="hljs language-json"></code><code class="hljs">Full Metadata</code><code id="details" class="hljs language-json"></code>
@@ -75,6 +84,7 @@
 
     <template id="geojson-item">
         <div class="item hljs">
+            <p id="filename" class="center blue"></p>
             <pre>
                 <code id="geojson" class="hljs language-json"></code>
             </pre>
