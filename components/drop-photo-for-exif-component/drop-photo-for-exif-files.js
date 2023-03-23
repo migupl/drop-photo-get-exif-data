@@ -9,19 +9,7 @@ class DropPhotoForExifFiles {
     }
 
     #collectFiles = event => {
-        const { items } = event.dataTransfer;
-
-        let files;
-        if (items) {
-            files = [...items]
-                .filter(item => item.kind === 'file')
-                .map(image => image.getAsFile())
-        }
-        else {
-            files = [...event.dataTransfer.files];
-        }
-
-        return files || [];
+        return [...event.dataTransfer.files];
     }
 
     #filterImages = files => files.filter(file => file.type.startsWith('image/'));
