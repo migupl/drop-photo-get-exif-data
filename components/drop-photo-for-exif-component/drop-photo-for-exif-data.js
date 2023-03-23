@@ -1,7 +1,7 @@
 class DropPhotoForExifData {
 
     extractExif = async (file) => {
-        let exif = await ExifReader.load(file);
+        const exif = await ExifReader.load(file);
         let data = {
             details: exif
         };
