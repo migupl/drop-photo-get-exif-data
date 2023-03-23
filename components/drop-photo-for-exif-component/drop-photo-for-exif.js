@@ -43,7 +43,8 @@ class DropPhotoForExif extends HTMLElement {
     #extractExifDataOnDrop = () => this.addEventListener('drop', (event) => {
         event.preventDefault();
 
-        dropFiles.collectImages(event)
+        const files = dropFiles.collectFiles(event);
+        files.images
             .forEach((image) => {
                 exifData.extractExif(image)
                     .then((exif) => {
@@ -55,6 +56,11 @@ class DropPhotoForExif extends HTMLElement {
                         });
                     });
             });
+
+        files.geojsons
+            .forEach((geojson) => {
+                this.#fireGeoJson(geojson);
+        });
     });
 
     #fireExifData = imageData => {
@@ -62,6 +68,15 @@ class DropPhotoForExif extends HTMLElement {
             bubbles: true,
             composed: true,
             detail: imageData
+        });
+        this.shadowRoot.dispatchEvent(evt);
+    }
+
+    #fireGeoJson = geojson => {
+        const evt = new CustomEvent('drop-photo-for-exif:geojson', {
+            bubbles: true,
+            composed: true,
+            detail: geojson
         });
         this.shadowRoot.dispatchEvent(evt);
     }

@@ -2,17 +2,19 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    collectImages = event => {
-        const files = this.#collectFiles(event);
+    collectFiles = event => {
+        const files = [...event.dataTransfer.files];
+
         const images = this.#filterImages(files);
-        return images;
+        const geojsons = this.#filterGeoJson(files);
+        return {
+            geojsons: geojsons,
+            images: images
+        };
     }
 
-    #collectFiles = event => {
-        return [...event.dataTransfer.files];
-    }
-
-    #filterImages = files => files.filter(file => file.type.startsWith('image/'));
+    #filterGeoJson = files => files.filter(file => 'application/geo+json' === file.type)
+    #filterImages = files => files.filter(file => file.type.startsWith('image/'))
 }
 
 const dropFiles = new DropPhotoForExifFiles();

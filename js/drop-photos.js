@@ -31,3 +31,25 @@ document.addEventListener("drop-photo-for-exif:data", (event) => {
 
     container.appendChild(clone);
 });
+
+document.addEventListener("drop-photo-for-exif:geojson", (event) => {
+    event.preventDefault();
+
+    const template = document.getElementById('geojson-item');
+    const container = document.getElementById('images-dragged');
+
+    const geojsonFile = event.detail;
+    const clone = template.content.cloneNode(true);
+
+    const geojson = clone.getElementById('geojson');
+
+    const reader = new FileReader();
+    reader.addEventListener("loadend", () => {
+        const json = JSON.parse(reader.result);
+
+        geojson.innerHTML = highlight(json);
+        container.appendChild(clone);
+    });
+
+    reader.readAsText(geojsonFile);
+});
