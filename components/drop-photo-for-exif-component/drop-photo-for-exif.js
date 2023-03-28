@@ -61,11 +61,11 @@ class DropPhotoForExif extends HTMLElement {
         files.directories.forEach(this.#fireDirectory);
     })
 
-    #fireDirectory = directory => {
+    #fireDirectory = directories => {
         const evt = new CustomEvent('drop-photo-for-exif:directory', {
             bubbles: true,
             composed: true,
-            detail: directory
+            detail: directories
         });
         this.shadowRoot.dispatchEvent(evt);
     }
