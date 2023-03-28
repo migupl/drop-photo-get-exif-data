@@ -27,7 +27,10 @@ class DropPhotoForExifFiles {
                 entries.filter((entry) => entry.isFile)
                     .forEach(entryFile =>
                         this.#getFile(entryFile)
-                            .then(file => files.push(file))
+                            .then(file => {
+                                const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
+                                files.push(fileWithType)
+                            })
                     )
             });
 
@@ -67,6 +70,13 @@ class DropPhotoForExifFiles {
         }
 
         return files;
+    }
+
+    #mimetype = filename => {
+        const ext = filename.split('.').pop();
+
+        if ('geojson' == ext) return 'application/geo+json';
+        return exifData.getAllowedMimetype(ext);
     }
 
     #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
