@@ -10,7 +10,7 @@ function highlight(json, language = 'json') {
     return html;
 }
 
-document.addEventListener("drop-photo-for-exif:data", (event) => {
+document.addEventListener('drop-photo-for-exif:data', (event) => {
     event.preventDefault();
 
     const template = document.getElementById('photo-item');
@@ -35,7 +35,7 @@ document.addEventListener("drop-photo-for-exif:data", (event) => {
     container.appendChild(clone);
 });
 
-document.addEventListener("drop-photo-for-exif:geojson", (event) => {
+document.addEventListener('drop-photo-for-exif:geojson', (event) => {
     event.preventDefault();
 
     const template = document.getElementById('geojson-item');
@@ -50,7 +50,7 @@ document.addEventListener("drop-photo-for-exif:geojson", (event) => {
     const geojson = clone.getElementById('geojson');
 
     const reader = new FileReader();
-    reader.addEventListener("loadend", () => {
+    reader.addEventListener('loadend', () => {
         const json = JSON.parse(reader.result);
 
         geojson.innerHTML = highlight(json);
