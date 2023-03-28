@@ -14,7 +14,7 @@ document.addEventListener("drop-photo-for-exif:data", (event) => {
     event.preventDefault();
 
     const template = document.getElementById('photo-item');
-    const container = document.getElementById('images-dragged');
+    const container = document.getElementById('items-dragged');
 
     const data = event.detail;
     const clone = template.content.cloneNode(true);
@@ -39,7 +39,7 @@ document.addEventListener("drop-photo-for-exif:geojson", (event) => {
     event.preventDefault();
 
     const template = document.getElementById('geojson-item');
-    const container = document.getElementById('images-dragged');
+    const container = document.getElementById('items-dragged');
 
     const geojsonFile = event.detail;
     const clone = template.content.cloneNode(true);
