@@ -57,11 +57,8 @@ class DropPhotoForExif extends HTMLElement {
                     });
             });
 
-        files.geojsons
-            .forEach((geojson) => {
-                this.#fireGeoJson(geojson);
-        });
-    });
+        files.geojsons.forEach(this.#fireGeoJson);
+    })
 
     #fireExifData = imageData => {
         const evt = new CustomEvent('drop-photo-for-exif:data', {
