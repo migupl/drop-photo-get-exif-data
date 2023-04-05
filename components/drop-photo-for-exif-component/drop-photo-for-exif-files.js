@@ -26,23 +26,14 @@ class DropPhotoForExifFiles {
             .readEntries((entries) => {
                 entries.filter((entry) => entry.isFile)
                     .forEach(entryFile =>
-                        this.#getFile(entryFile)
-                            .then(file => {
-                                const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
-                                files.push(fileWithType)
-                            })
+                        entryFile.file((file) => {
+                            const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
+                            files.push(fileWithType)
+                        })
                     )
             });
 
         return files;
-    }
-
-    #getFile = entryFile => {
-        try {
-            return new Promise((resolve, reject) => entryFile.file(resolve, reject))
-        } catch (err) {
-            console.log(err);
-        }
     }
 
     #getFiles = items => {
