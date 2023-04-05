@@ -16,9 +16,13 @@ class DropPhotoForExifFiles {
         };
     }
 
-    #filterDirectories = files => files.filter(file => 'directory' === file.type)
-    #filterGeoJson = files => files.filter(file => 'application/geo+json' === file.type)
-    #filterImages = files => files.filter(file => file.type.startsWith('image/'))
+    #isADirectory = file => 'directory' === file.type
+    #isAGeoJsonFile = file => 'application/geo+json' === file.type
+    #isAnImage = file => file.type.startsWith('image/')
+
+    #filterDirectories = files => files.filter(this.#isADirectory)
+    #filterGeoJson = files => files.filter(this.#isAGeoJsonFile)
+    #filterImages = files => files.filter(this.#isAnImage)
 
     #getDirectoryEntries = dirEntry => {
         const files = [];
