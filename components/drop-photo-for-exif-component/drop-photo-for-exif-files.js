@@ -5,15 +5,7 @@ class DropPhotoForExifFiles {
     collectFiles = event => {
         const { items } = event.dataTransfer;
         let files = this.#getFiles(items);
-
-        const images = this.#filterImages(files);
-        const geojsons = this.#filterGeoJson(files);
-        const directories = this.#filterDirectories(files);
-        return {
-            geojsons: geojsons,
-            images: images,
-            directories: directories
-        };
+        return this.#groupByTypes(files);
     }
 
     #isADirectory = file => 'directory' === file.type
@@ -65,6 +57,14 @@ class DropPhotoForExifFiles {
         }
 
         return files;
+    }
+
+    #groupByTypes = files => {
+        return {
+            geojsons: this.#filterGeoJson(files),
+            images: this.#filterImages(files),
+            directories: this.#filterDirectories(files)
+        }
     }
 
     #mimetype = filename => {
