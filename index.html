@@ -46,6 +46,10 @@
             color: #3887BE;
         }
 
+        .underscored {
+            border-bottom: 1px solid;
+        }
+
         .item {
             border-radius: 5px;
             border-style: solid;
@@ -74,7 +78,7 @@
 
     <template id="photo-item">
         <div class="item hljs">
-            <p id="filename" class="center blue"></p>
+            <p id="filename" class="center blue underscored"></p>
             <img>
             <p class="blue">Location</p>
             <pre><code id="location" class="hljs language-json"></code></pre>
@@ -85,7 +89,7 @@
 
     <template id="geojson-item">
         <div class="item hljs">
-            <p id="filename" class="center blue"></p>
+            <p id="filename" class="center blue underscored"></p>
             <pre>
                 <code id="geojson" class="hljs language-json"></code>
             </pre>
