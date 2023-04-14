@@ -47,7 +47,7 @@ document.addEventListener('drop-photo-for-exif:directory', (event) => {
     const dirname = clone.getElementById('dirname');
     dirname.textContent = directory.name;
 
-    const table = clone.querySelector('tbody');
+    const tableBody = clone.querySelector('tbody');
     setTimeout(() => {
         directory.files.forEach(file => {
             const row = document.createElement('tr');
@@ -66,7 +66,7 @@ document.addEventListener('drop-photo-for-exif:directory', (event) => {
             row.appendChild(colName);
             row.appendChild(colSize);
             row.appendChild(colLastModified);
-            table.appendChild(row);
+            tableBody.appendChild(row);
         });
     }, 1500)
 
