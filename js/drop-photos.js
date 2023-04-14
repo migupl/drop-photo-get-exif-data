@@ -35,6 +35,44 @@ document.addEventListener('drop-photo-for-exif:data', (event) => {
     container.appendChild(clone);
 });
 
+document.addEventListener('drop-photo-for-exif:directory', (event) => {
+    event.preventDefault();
+
+    const template = document.getElementById('directory-item');
+    const container = document.getElementById('items-dragged');
+
+    const directory = event.detail;
+    const clone = template.content.cloneNode(true);
+
+    const dirname = clone.getElementById('dirname');
+    dirname.textContent = directory.name;
+
+    const table = clone.querySelector('tbody');
+    setTimeout(() => {
+        directory.files.forEach(file => {
+            const row = document.createElement('tr');
+            const colName = document.createElement('td');
+            colName.className = 'name';
+            colName.textContent = file.name;
+            colName .type = file.type;
+
+            const colSize = document.createElement('td');
+            colSize.textContent = `${(file.size / 1024).toFixed(2) } KB`;
+
+            const colLastModified = document.createElement('td');
+            const lastModified = new Date(file.lastModified);
+            colLastModified.textContent = lastModified.toLocaleDateString();
+
+            row.appendChild(colName);
+            row.appendChild(colSize);
+            row.appendChild(colLastModified);
+            table.appendChild(row);
+        });
+    }, 1500)
+
+    container.appendChild(clone);
+});
+
 document.addEventListener('drop-photo-for-exif:geojson', (event) => {
     event.preventDefault();
 
