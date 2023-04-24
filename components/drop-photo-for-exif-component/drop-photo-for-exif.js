@@ -43,7 +43,8 @@ class DropPhotoForExif extends HTMLElement {
     #extractExifDataOnDrop = () => this.addEventListener('drop', (event) => {
         event.preventDefault();
 
-        const files = dropFiles.collectFiles(event);
+        const { items } = event.dataTransfer;
+        const files = dropFiles.collectFiles(items);
         files.images
             .forEach((image) => {
                 exifData.extractExif(image)
