@@ -73,27 +73,32 @@ document.addEventListener('drop-photo-for-exif:directory', (event) => {
     container.appendChild(clone);
 });
 
-document.addEventListener('drop-photo-for-exif:geojson', (event) => {
+document.addEventListener('drop-photo-for-exif:file', (event) => {
     event.preventDefault();
 
     const template = document.getElementById('geojson-item');
     const container = document.getElementById('items-dragged');
 
-    const geojsonFile = event.detail;
+    const file = event.detail;
     const clone = template.content.cloneNode(true);
 
     const filename = clone.getElementById('filename');
-    filename.textContent = geojsonFile.name;
+    filename.textContent = file.name;
 
-    const geojson = clone.getElementById('geojson');
+    if ('application/geo+json' === file.type) {
+        const geojson = clone.getElementById('geojson');
 
-    const reader = new FileReader();
-    reader.addEventListener('loadend', () => {
-        const json = JSON.parse(reader.result);
+        const reader = new FileReader();
+        reader.addEventListener('loadend', () => {
+            const json = JSON.parse(reader.result);
 
-        geojson.innerHTML = highlight(json);
+            geojson.innerHTML = highlight(json);
+            container.appendChild(clone);
+        });
+
+        reader.readAsText(file);
+    }
+    else {
         container.appendChild(clone);
-    });
-
-    reader.readAsText(geojsonFile);
+    }
 });

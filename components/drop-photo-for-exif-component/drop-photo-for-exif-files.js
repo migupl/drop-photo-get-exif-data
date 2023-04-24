@@ -2,8 +2,11 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    collectFiles = (items, afterImageReady = (image, exif) => console.log('Do something after image is ready')) => {
+    collectFiles = (items
+        , afterImageReady = (image, exif) => console.log('Do something after image is ready')
+        , afterFileReady = file => console.log('Do something after file is ready')) => {
         this._afterImageReady = afterImageReady;
+        this._afterFileReady = afterFileReady;
         let files = this.#getFiles(items);
         return this.#groupByTypes(files);
     }
@@ -80,8 +83,8 @@ class DropPhotoForExifFiles {
             exifData.extractExif(fileWithType)
                 .then((exif) => this._afterImageReady(fileWithType, exif));
         }
-        else if (this.#isAGeoJsonFile(fileWithType)) {
-            files.push(fileWithType);
+        else {
+            this._afterFileReady(fileWithType);
         }
     }
 
