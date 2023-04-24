@@ -44,18 +44,7 @@ class DropPhotoForExif extends HTMLElement {
 
         const { items } = event.dataTransfer;
         const files = dropFiles.collectFiles(items, this.#fireImageEvent, this.#fireFileEvent);
-
-        files.directories.forEach(this.#fireDirectory);
     })
-
-    #fireDirectory = directory => {
-        const evt = new CustomEvent('drop-photo-for-exif:directory', {
-            bubbles: true,
-            composed: true,
-            detail: directory
-        });
-        this.shadowRoot.dispatchEvent(evt);
-    }
 
     #fireImageEvent = (image, exif) => {
         const evt = new CustomEvent('drop-photo-for-exif:data', {
