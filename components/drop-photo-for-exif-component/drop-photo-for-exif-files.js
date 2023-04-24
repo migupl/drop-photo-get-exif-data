@@ -21,18 +21,14 @@ class DropPhotoForExifFiles {
                 this.#processFile(item.getAsFile());
             }
             else if (entry.isDirectory) {
-                const directory = {
-                    name: entry.name,
-                    files: this.#getDirectoryEntries(entry),
-                    type: 'directory'
-                }
+                this.#exploreDirectoryContent(entry)
             }
-        };
+        }
     }
 
     #isAnImage = file => file.type.startsWith('image/')
 
-    #getDirectoryEntries = dirEntry => {
+    #exploreDirectoryContent = dirEntry => {
         dirEntry.createReader()
             .readEntries((entries) => {
                 entries.filter((entry) => entry.isFile)
