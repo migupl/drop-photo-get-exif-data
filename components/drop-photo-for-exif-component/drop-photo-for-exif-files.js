@@ -25,10 +25,7 @@ class DropPhotoForExifFiles {
             .readEntries((entries) => {
                 entries.filter((entry) => entry.isFile)
                     .forEach(entryFile =>
-                        entryFile.file((file) => {
-                            const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
-                            files.push(fileWithType)
-                        })
+                        entryFile.file(this.#processFile)
                     )
             });
 
