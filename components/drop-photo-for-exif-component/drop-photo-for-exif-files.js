@@ -2,41 +2,15 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    collectFiles = (items
+    process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')) => {
         this._afterImageReady = afterImageReady;
         this._afterFileReady = afterFileReady;
-        let files = this.#getFiles(items);
-        return this.#groupByTypes(files);
-    }
 
-    #isADirectory = file => 'directory' === file.type
-    #isAGeoJsonFile = file => 'application/geo+json' === file.type
-    #isAnImage = file => file.type.startsWith('image/')
-
-    #filterDirectories = files => files.filter(this.#isADirectory)
-    #filterGeoJson = files => files.filter(this.#isAGeoJsonFile)
-    #filterImages = files => files.filter(this.#isAnImage)
-
-    #getDirectoryEntries = dirEntry => {
-        const files = [];
-        dirEntry.createReader()
-            .readEntries((entries) => {
-                entries.filter((entry) => entry.isFile)
-                    .forEach(entryFile =>
-                        entryFile.file(this.#processFile)
-                    )
-            });
-
-        return files;
-    }
-
-    #getFiles = items => {
-        const files = [];
         for (let item of items) {
             if (!(this.#supportsFileSystemAccessAPI || this.#supportsWebkitGetAsEntry)) {
-                this.#processFile(item.getAsFile(), files);
+                this.#processFile(item.getAsFile());
             }
 
             const entry = this.#supportsFileSystemAccessAPI
@@ -44,7 +18,7 @@ class DropPhotoForExifFiles {
                 : item.webkitGetAsEntry();
 
             if (entry.isFile) {
-                this.#processFile(item.getAsFile(), files);
+                this.#processFile(item.getAsFile());
             }
             else if (entry.isDirectory) {
                 const directory = {
@@ -52,19 +26,20 @@ class DropPhotoForExifFiles {
                     files: this.#getDirectoryEntries(entry),
                     type: 'directory'
                 }
-                files.push(directory);
             }
-        }
-
-        return files;
+        };
     }
 
-    #groupByTypes = files => {
-        return {
-            geojsons: this.#filterGeoJson(files),
-            images: this.#filterImages(files),
-            directories: this.#filterDirectories(files)
-        }
+    #isAnImage = file => file.type.startsWith('image/')
+
+    #getDirectoryEntries = dirEntry => {
+        dirEntry.createReader()
+            .readEntries((entries) => {
+                entries.filter((entry) => entry.isFile)
+                    .forEach(entryFile =>
+                        entryFile.file(this.#processFile)
+                    )
+            });
     }
 
     #mimetype = filename => {
@@ -74,7 +49,7 @@ class DropPhotoForExifFiles {
         return exifData.getAllowedMimetype(ext);
     }
 
-    #processFile = (file, files) => {
+    #processFile = file => {
         const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
         if (this.#isAnImage(fileWithType)) {
             exifData.extractExif(fileWithType)
