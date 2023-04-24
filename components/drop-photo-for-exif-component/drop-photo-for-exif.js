@@ -1,5 +1,4 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
-import { exifData } from "./drop-photo-for-exif-data.js";
 import { svgCss } from "./drop-photo-for-exif-dom.js";
 import { getDirname } from "./utils.js";
 import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
@@ -44,19 +43,7 @@ class DropPhotoForExif extends HTMLElement {
         event.preventDefault();
 
         const { items } = event.dataTransfer;
-        const files = dropFiles.collectFiles(items);
-        files.images
-            .forEach((image) => {
-                exifData.extractExif(image)
-                    .then((exif) => {
-                        this.#fireExifData({
-                            name: image.name,
-                            image: image,
-                            location: exif.location,
-                            exif: exif.details
-                        });
-                    });
-            });
+        const files = dropFiles.collectFiles(items, this.#fireImageEvent);
 
         files.geojsons.forEach(this.#fireGeoJson);
         files.directories.forEach(this.#fireDirectory);
@@ -71,11 +58,16 @@ class DropPhotoForExif extends HTMLElement {
         this.shadowRoot.dispatchEvent(evt);
     }
 
-    #fireExifData = imageData => {
+    #fireImageEvent = (image, exif) => {
         const evt = new CustomEvent('drop-photo-for-exif:data', {
             bubbles: true,
             composed: true,
-            detail: imageData
+            detail: {
+                name: image.name,
+                image: image,
+                location: exif.location,
+                exif: exif.details
+            }
         });
         this.shadowRoot.dispatchEvent(evt);
     }
