@@ -43,9 +43,8 @@ class DropPhotoForExif extends HTMLElement {
         event.preventDefault();
 
         const { items } = event.dataTransfer;
-        const files = dropFiles.collectFiles(items, this.#fireImageEvent);
+        const files = dropFiles.collectFiles(items, this.#fireImageEvent, this.#fireFileEvent);
 
-        files.geojsons.forEach(this.#fireGeoJson);
         files.directories.forEach(this.#fireDirectory);
     })
 
@@ -72,11 +71,11 @@ class DropPhotoForExif extends HTMLElement {
         this.shadowRoot.dispatchEvent(evt);
     }
 
-    #fireGeoJson = geojson => {
-        const evt = new CustomEvent('drop-photo-for-exif:geojson', {
+    #fireFileEvent = file => {
+        const evt = new CustomEvent('drop-photo-for-exif:file', {
             bubbles: true,
             composed: true,
-            detail: geojson
+            detail: file
         });
         this.shadowRoot.dispatchEvent(evt);
     }
