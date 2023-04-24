@@ -2,8 +2,7 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
-    collectFiles = event => {
-        const { items } = event.dataTransfer;
+    collectFiles = items => {
         let files = this.#getFiles(items);
         return this.#groupByTypes(files);
     }
