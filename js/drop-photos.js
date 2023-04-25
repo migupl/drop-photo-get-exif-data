@@ -65,7 +65,7 @@ document.addEventListener('drop-photo-for-exif:file', (event) => {
     }
 });
 
-document.addEventListener('drop-photo-for-exif:on-complete', (event) => {
+document.addEventListener('drop-photo-for-exif:completed-batch', (event) => {
     event.preventDefault();
 
     console.log('All files processed!!!')

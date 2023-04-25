@@ -69,7 +69,7 @@ class DropPhotoForExif extends HTMLElement {
     }
 
     #fireOnCompleted = () => {
-        const evt = new CustomEvent('drop-photo-for-exif:on-complete', {
+        const evt = new CustomEvent('drop-photo-for-exif:completed-batch', {
             bubbles: true,
             composed: true,
         });
