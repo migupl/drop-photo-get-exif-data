@@ -8,6 +8,8 @@ class DropPhotoForExifFiles {
         this._afterImageReady = afterImageReady;
         this._afterFileReady = afterFileReady;
 
+        this.#filesToProcess(items.length);
+
         for (let item of items) {
             if (!(this.#supportsFileSystemAccessAPI || this.#supportsWebkitGetAsEntry)) {
                 this.#processFile(item.getAsFile());
@@ -31,12 +33,16 @@ class DropPhotoForExifFiles {
     #exploreDirectoryContent = dirEntry => {
         dirEntry.createReader()
             .readEntries((entries) => {
-                entries.filter((entry) => entry.isFile)
-                    .forEach(entryFile =>
+                const files = entries.filter((entry) => entry.isFile);
+                this.#filesToProcess(files.length - 1);
+
+                files.forEach(entryFile =>
                         entryFile.file(this.#processFile)
                     )
             });
     }
+
+    #filesToProcess = n => this._remainToCompleteBatch = (this._remainToCompleteBatch || 0) + n
 
     #mimetype = filename => {
         const ext = filename.split('.').pop();
@@ -44,6 +50,8 @@ class DropPhotoForExifFiles {
         if ('geojson' == ext) return 'application/geo+json';
         return exifData.getAllowedMimetype(ext);
     }
+
+    #proccesedFile = () => --this._remainToCompleteBatch
 
     #processFile = file => {
         const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
@@ -54,6 +62,8 @@ class DropPhotoForExifFiles {
         else {
             this._afterFileReady(fileWithType);
         }
+
+        this.#proccesedFile();
     }
 
     #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
