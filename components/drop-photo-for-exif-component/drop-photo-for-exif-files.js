@@ -4,9 +4,11 @@ class DropPhotoForExifFiles {
 
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
-        , afterFileReady = file => console.log('Do something after file is ready')) => {
+        , afterFileReady = file => console.log('Do something after file is ready')
+        , onComplete = () => console.log('Do something on complete')) => {
         this._afterImageReady = afterImageReady;
         this._afterFileReady = afterFileReady;
+        this._onComplete = onComplete;
 
         this.#filesToProcess(items.length);
 
@@ -51,7 +53,10 @@ class DropPhotoForExifFiles {
         return exifData.getAllowedMimetype(ext);
     }
 
-    #proccesedFile = () => --this._remainToCompleteBatch
+    #proccesedFile = () => {
+        --this._remainToCompleteBatch;
+        if (!this._remainToCompleteBatch) this._onComplete();
+    }
 
     #processFile = file => {
         const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
