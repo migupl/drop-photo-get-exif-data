@@ -64,3 +64,9 @@ document.addEventListener('drop-photo-for-exif:file', (event) => {
         container.appendChild(clone);
     }
 });
+
+document.addEventListener('drop-photo-for-exif:on-complete', (event) => {
+    event.preventDefault();
+
+    console.log('All files processed!!!')
+});
