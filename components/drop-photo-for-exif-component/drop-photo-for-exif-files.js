@@ -53,7 +53,7 @@ class DropPhotoForExifFiles {
         return exifData.getAllowedMimetype(ext);
     }
 
-    #proccesedFile = () => {
+    #onCompletion = () => {
         --this._remainToCompleteBatch;
         if (!this._remainToCompleteBatch) this._onComplete();
     }
@@ -68,7 +68,7 @@ class DropPhotoForExifFiles {
             this._afterFileReady(fileWithType);
         }
 
-        this.#proccesedFile();
+        this.#onCompletion();
     }
 
     #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
