@@ -80,7 +80,7 @@ _location_ is in the form
 
 ### Rest of files
 
-The Web Component *drop-photo-for-exif* exposes the following information about the files dragged through the event 'drop-photo-for-exif:file'.
+The Web Component *drop-photo-for-exif* through the event 'drop-photo-for-exif:file' for each of the others dropped files.
 
 In the example, some processing is done for GeoJSON[^2] files.
 
