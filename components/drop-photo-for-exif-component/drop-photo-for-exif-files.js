@@ -6,9 +6,8 @@ class DropPhotoForExifFiles {
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
         , onComplete = () => console.log('Do something on complete')) => {
-        this._afterImageReady = afterImageReady;
-        this._afterFileReady = afterFileReady;
-        this._onComplete = onComplete;
+
+        this.#setAfterActions(afterImageReady, afterFileReady, onComplete);
 
         this.#filesToProcess(items.length);
 
@@ -69,6 +68,12 @@ class DropPhotoForExifFiles {
         }
 
         this.#onCompletion();
+    }
+
+    #setAfterActions = (afterImageReady, afterFileReady, onCompletion) => {
+        this._afterImageReady = afterImageReady;
+        this._afterFileReady = afterFileReady;
+        this._onComplete = onCompletion;
     }
 
     #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
