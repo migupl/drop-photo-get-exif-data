@@ -5,9 +5,9 @@ class DropPhotoForExifFiles {
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
-        , onComplete = () => console.log('Do something on complete')) => {
+        , onCompletion = () => console.log('Do something on complete')) => {
 
-        this.#setAfterActions(afterImageReady, afterFileReady, onComplete);
+        this.#setAfterActions(afterImageReady, afterFileReady, onCompletion);
 
         this.#filesToProcess(items.length);
 
