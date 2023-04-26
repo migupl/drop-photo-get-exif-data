@@ -38,8 +38,8 @@ class DropPhotoForExifFiles {
                 this.#filesToProcess(files.length - 1);
 
                 files.forEach(entryFile =>
-                        entryFile.file(this.#processFile)
-                    )
+                    entryFile.file(this.#processFile)
+                )
             });
     }
 
