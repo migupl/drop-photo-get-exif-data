@@ -8,9 +8,11 @@ class DropPhotoForExifFiles {
         , onCompletion = () => console.log('Do something on complete')) => {
 
         this.#setAfterActions(afterImageReady, afterFileReady, onCompletion);
-
         this.#filesToProcess(items.length);
+        this.#process(items);
+    }
 
+    #process = items => {
         for (let item of items) {
             if (!(this.#supportsFileSystemAccessAPI || this.#supportsWebkitGetAsEntry)) {
                 this.#processFile(item.getAsFile());
