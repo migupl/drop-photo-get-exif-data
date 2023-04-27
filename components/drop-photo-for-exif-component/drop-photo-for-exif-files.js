@@ -56,7 +56,7 @@ class DropPhotoForExifFiles {
 
     #onCompletion = () => {
         --this._remainToCompleteBatch;
-        if (!this._remainToCompleteBatch) this._onComplete();
+        if (!this._remainToCompleteBatch) this._onCompletion();
     }
 
     #processFile = file => {
@@ -68,14 +68,20 @@ class DropPhotoForExifFiles {
         else {
             this._afterFileReady(fileWithType);
         }
-
-        this.#onCompletion();
     }
 
     #setAfterActions = (afterImageReady, afterFileReady, onCompletion) => {
-        this._afterImageReady = afterImageReady;
-        this._afterFileReady = afterFileReady;
-        this._onComplete = onCompletion;
+        this._afterImageReady = (image, exif) => {
+            afterImageReady(image, exif);
+            this.#onCompletion();
+        };
+
+        this._afterFileReady = file => {
+            afterFileReady(file);
+            this.#onCompletion();
+        };
+
+        this._onCompletion = onCompletion;
     }
 
     #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
