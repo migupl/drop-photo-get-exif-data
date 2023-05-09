@@ -16,14 +16,11 @@ class DropPhotoForExifFiles {
 
     #process = items => {
         for (let item of items) {
-            if (!(this.#supportsFileSystemAccessAPI || this.#supportsWebkitGetAsEntry)) {
+            if (!this.#supportsWebkitGetAsEntry) {
                 this.#processFile(item.getAsFile());
             }
 
-            const entry = this.#supportsFileSystemAccessAPI
-                ? item.getAsFileSystemHandle()
-                : item.webkitGetAsEntry();
-
+            const entry = item.webkitGetAsEntry();
             if (entry.isFile) {
                 this.#processFile(item.getAsFile());
             }
@@ -86,7 +83,6 @@ class DropPhotoForExifFiles {
         this.#doOnCompletion = onCompletion;
     }
 
-    #supportsFileSystemAccessAPI = 'getAsFileSystemHandle' in DataTransferItem.prototype;
     #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
 }
 
