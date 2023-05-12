@@ -27,7 +27,7 @@ See the _index.html_ file for a simple example.
 
 ### Images
 
-The Web Component *drop-photo-for-exif* exposes the following information about the images dragged through the event 'drop-photo-for-exif:data'.
+The Web Component *drop-photo-for-exif* exposes the following information about the images dragged through the event 'drop-photo-for-exif:image'.
 
 By example, dragging the image ./assets/favicon.ico of this project you get
 

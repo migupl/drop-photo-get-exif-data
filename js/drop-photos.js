@@ -10,7 +10,7 @@ function highlight(json, language = 'json') {
     return html;
 }
 
-document.addEventListener('drop-photo-for-exif:data', (event) => {
+document.addEventListener('drop-photo-for-exif:image', (event) => {
     event.preventDefault();
 
     const template = document.getElementById('photo-item');
