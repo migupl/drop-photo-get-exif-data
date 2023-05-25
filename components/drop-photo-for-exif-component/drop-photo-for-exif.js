@@ -92,7 +92,7 @@ class DropPhotoForExif extends HTMLElement {
 
     #stopDefaultsForDragAndDropEvents = () => {
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            this.addEventListener(eventName, this.#preventDefaults, false);
+            this.addEventListener(eventName, this.#preventDefaults);
         });
     }
 }
