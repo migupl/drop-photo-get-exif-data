@@ -20,8 +20,7 @@ function highlight(json, language = 'json') {
         (e) => {
             e.preventDefault();
             e.stopPropagation();
-        },
-        false)
+        })
 )
 
 document.addEventListener('drop-photo-for-exif:image', (event) => {
