@@ -10,9 +10,21 @@ function highlight(json, language = 'json') {
     return html;
 }
 
-document.addEventListener('drop-photo-for-exif:image', (event) => {
-    event.preventDefault();
+[
+    'drop-photo-for-exif:image',
+    'drop-photo-for-exif:file',
+    'drop-photo-for-exif:completed-batch'
+].forEach((name) =>
+    document.addEventListener(
+        name,
+        (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        },
+        false)
+)
 
+document.addEventListener('drop-photo-for-exif:image', (event) => {
     const template = document.getElementById('photo-item');
     const container = document.getElementById('items-dragged');
 
@@ -36,8 +48,6 @@ document.addEventListener('drop-photo-for-exif:image', (event) => {
 });
 
 document.addEventListener('drop-photo-for-exif:file', (event) => {
-    event.preventDefault();
-
     const template = document.getElementById('geojson-item');
     const container = document.getElementById('items-dragged');
 
@@ -66,7 +76,5 @@ document.addEventListener('drop-photo-for-exif:file', (event) => {
 });
 
 document.addEventListener('drop-photo-for-exif:completed-batch', (event) => {
-    event.preventDefault();
-
     console.log('All files processed!!!')
 });
