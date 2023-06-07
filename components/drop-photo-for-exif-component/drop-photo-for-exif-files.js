@@ -19,13 +19,14 @@ class DropPhotoForExifFiles {
             if (!this.#supportsWebkitGetAsEntry) {
                 this.#processFile(item.getAsFile());
             }
-
-            const entry = item.webkitGetAsEntry();
-            if (entry.isFile) {
-                this.#processFile(item.getAsFile());
-            }
-            else if (entry.isDirectory) {
-                this.#exploreDirectoryContent(entry)
+            else {
+                const entry = item.webkitGetAsEntry();
+                if (entry.isFile) {
+                    this.#processFile(item.getAsFile());
+                }
+                else if (entry.isDirectory) {
+                    this.#exploreDirectoryContent(entry);
+                }
             }
         }
     }
