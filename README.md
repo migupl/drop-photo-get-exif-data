@@ -1,6 +1,7 @@
 # A vanilla javascript Web Component for obtain EXIF data
 
-A simple solution for obtaining EXIF data from photos (the main goal), but you can also drop any kind of files or directories.
+A simple solution for obtaining EXIF data from photos (the main goal), but you can also drop or choose[^1] any kind of files or directories[^2].
+
 
 ## Install
 
@@ -20,6 +21,8 @@ To get started you need to import the Web Component
 ```
 
 You can use the file *index.html* of the project as a small demo.
+
+A more interesting example could be the integration between images with location data and [maps](https://github.com/migupl/vanilla-js-web-component-leaflet-geojson), as we can see [here](https://migupl.github.io/where-was-the-photo-taken/).
 
 ## Events
 
@@ -82,7 +85,7 @@ _location_ is in the form
 
 The Web Component *drop-photo-for-exif* through the event 'drop-photo-for-exif:file' for each of the others dropped files.
 
-In the example, some processing is done for GeoJSON[^2] files.
+In the example, some processing is done for GeoJSON[^3] files.
 
 ### On complete
 
@@ -106,5 +109,6 @@ Good luck and I hope you enjoy it.
 
 [MIT license](http://www.opensource.org/licenses/mit-license.php)
 
-[^1]: Only one level deep
-[^2]: GeoJSON is a format for encoding a variety of geographic data structures([GeoJSON Specification (RFC 7946)](https://tools.ietf.org/html/rfc7946))
+[^1]: Dropping files is the default interaction, but when a mobile browser is detected you will be able to select the files to add
+[^2]: Only one level deep
+[^3]: GeoJSON is a format for encoding a variety of geographic data structures([GeoJSON Specification (RFC 7946)](https://tools.ietf.org/html/rfc7946))
