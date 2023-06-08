@@ -84,7 +84,7 @@ The Web Component *drop-photo-for-exif* through the event 'drop-photo-for-exif:f
 
 In the example, some processing is done for GeoJSON[^2] files.
 
-# On complete
+### On complete
 
 The Web Component *drop-photo-for-exif* through the event 'drop-photo-for-exif:completed-batch' when all dropped files have been processed.
 
