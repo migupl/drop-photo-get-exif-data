@@ -16,7 +16,10 @@ class DropPhotoForExifFiles {
 
     #process = items => {
         for (let item of items) {
-            if (!this.#supportsWebkitGetAsEntry) {
+            if (typeof item.name === 'string') {
+                this.#processFile(item);
+            }
+            else if (!this.#supportsWebkitGetAsEntry) {
                 this.#processFile(item.getAsFile());
             }
             else {
