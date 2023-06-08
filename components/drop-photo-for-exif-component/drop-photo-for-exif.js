@@ -37,7 +37,8 @@ class DropPhotoForExif extends HTMLElement {
         svg.setAttribute('type', 'image/svg+xml');
 
         const dirname = this.#getDirname();
-        svg.setAttribute('data', `${dirname}drop-photo.svg`);
+        const svgFilename = this.#isMobile ? 'alt-plus-folder' : 'drop-photo'
+        svg.setAttribute('data', `${dirname}${svgFilename}.svg`);
 
         div.appendChild(svg);
     }
