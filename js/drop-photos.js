@@ -1,10 +1,10 @@
 window.onload = (event) => {
-    function highlight(json, language = 'json') {
+    const highlight = json => {
         let html = '';
         if (json) {
             const withSpaces = JSON.stringify(json, null, 2)
             html = hljs
-                .highlight(withSpaces, { language: language })
+                .highlight(withSpaces, { language: 'json' })
                 .value
         }
 
