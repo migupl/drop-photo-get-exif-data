@@ -103,6 +103,9 @@ A [container is used for hot reloading](https://github.com/migupl/hot-reloading-
 
 [Highlight.js](https://highlightjs.org/). Syntax highlighting for the Web.
 
+Web Component behind this idea are:
+- [Yet Another GitHub Corner](https://github.com/migupl/yagc)
+
 Good luck and I hope you enjoy it.
 
 ## License
