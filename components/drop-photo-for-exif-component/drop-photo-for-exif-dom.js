@@ -1,11 +1,11 @@
 const svgCss = `
 :host {
-      display: block;
-    }
+  display: block;
+}
 
 div.svg-container {
-    position: relative;
-    min-height: 50px;
+  position: relative;
+  min-height: 50px;
 }
 
 .svg-object {
