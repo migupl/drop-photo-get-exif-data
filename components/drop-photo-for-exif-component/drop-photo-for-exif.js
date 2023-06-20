@@ -4,13 +4,13 @@ import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
 
 class DropPhotoForExif extends HTMLElement {
 
-    #isMobile;
+    #isMobile; #helperText;
 
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
 
-        this.#isMobile = this.#isMobileBrowser(navigator.userAgent || window.opera);
+        this.#setProperties();
 
         this.#stopDefaultsForDragAndDropEvents();
         this.#extractExifData();
@@ -34,7 +34,7 @@ class DropPhotoForExif extends HTMLElement {
         this.shadowRoot.appendChild(divEl);
 
         const helpEl = document.createElement('span');
-        helpEl.textContent = this.#isMobile ? 'Choose files' : 'Drop files here';
+        helpEl.textContent = this.#helperText;
         divEl.appendChild(helpEl);
     }
 
@@ -128,6 +128,12 @@ class DropPhotoForExif extends HTMLElement {
         fireOnFile = this.#fireFileEvent,
         fireOnCompletion = this.#fireOnCompleted
     ) => dropFiles.process(items, fireOnImage, fireOnFile, fireOnCompletion)
+
+    #setProperties() {
+        this.#isMobile = this.#isMobileBrowser(navigator.userAgent || window.opera);
+        this.#helperText = this.getAttribute('helperText') ||
+            (this.#isMobile ? 'Choose files' : 'Drop files here');
+    }
 
     #stopDefaultsForDragAndDropEvents = () => {
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
