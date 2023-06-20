@@ -34,16 +34,6 @@
     <script type="module" src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
 
     <style>
-        header {
-            border-radius: 10px;
-            border-style: dashed;
-            margin-bottom: 10px;
-            display: flex;
-            flex-flow: row;
-            justify-content: start;
-            align-items: flex-start;
-        }
-
         .container {
             display: flex;
             flex-flow: row wrap;
@@ -52,7 +42,14 @@
         }
 
         drop-photo-for-exif {
-            width: 100%;
+            width: 95%;
+            height: 5em;
+        }
+
+        #items-dragged {
+            position: relative;
+            top: 6em;
+            height: 100%;
         }
 
         .center {
