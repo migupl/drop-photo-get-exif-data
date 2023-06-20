@@ -1,22 +1,29 @@
 const shadowCss = `
 :host {
-  display: block;
-}
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 
-div.svg-container {
-  position: relative;
-  min-height: 50px;
-}
+  border-radius: 10px;
+  border-style: dashed;
 
-.svg-object {
-  margin: 0;
   position: absolute;
-  max-height: 90%;
-  top: 50%;
   left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%);
+  transform: translate(-50%);
+}
+
+.item {
+  min-height: 50px;
+  margin: 10px;
+}
+
+div object {
+  min-height: 50px;
+  position: relative;
   z-index: -1;
 }
 `
+
 export { shadowCss }
