@@ -23,7 +23,7 @@ class DropPhotoForExif extends HTMLElement {
 
     #addCss = () => {
         const contentCss = document.createElement('style');
-        contentCss.innerHTML = shadowCss;
+        contentCss.textContent = shadowCss;
         this.shadowRoot.appendChild(contentCss);
     }
 
