@@ -1,4 +1,4 @@
-const svgCss = `
+const shadowCss = `
 :host {
   display: block;
 }
@@ -19,4 +19,4 @@ div.svg-container {
   z-index: -1;
 }
 `
-export { svgCss }
+export { shadowCss }

@@ -1,5 +1,5 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
-import { svgCss } from "./drop-photo-for-exif-dom.js";
+import { shadowCss } from "./drop-photo-for-exif-dom.js";
 import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
 
 class DropPhotoForExif extends HTMLElement {
@@ -22,9 +22,9 @@ class DropPhotoForExif extends HTMLElement {
     }
 
     #addCss = () => {
-        const css = document.createElement('style');
-        css.innerHTML = svgCss;
-        this.shadowRoot.appendChild(css);
+        const contentCss = document.createElement('style');
+        contentCss.innerHTML = shadowCss;
+        this.shadowRoot.appendChild(contentCss);
     }
 
     #addIcon = () => {
