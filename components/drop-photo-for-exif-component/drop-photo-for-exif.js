@@ -28,19 +28,18 @@ class DropPhotoForExif extends HTMLElement {
     }
 
     #addIcon = () => {
-        const div = document.createElement('div');
-        div.className = 'svg-container';
-        this.shadowRoot.appendChild(div);
+        const divEl = document.createElement('div');
+        divEl.className = 'item';
+        this.shadowRoot.appendChild(divEl);
 
-        const svg = document.createElement('object');
-        svg.setAttribute('class', 'svg-object');
-        svg.setAttribute('type', 'image/svg+xml');
+        const svgEl = document.createElement('object');
+        svgEl.setAttribute('type', 'image/svg+xml');
 
         const dirname = this.#getDirname();
         const svgFilename = this.#isMobile ? 'alt-plus-folder' : 'drop-photo'
-        svg.setAttribute('data', `${dirname}${svgFilename}.svg`);
+        svgEl.setAttribute('data', `${dirname}${svgFilename}.svg`);
 
-        div.appendChild(svg);
+        divEl.appendChild(svgEl);
     }
 
     #extractExifData = () => this.#isMobile ? this.#extractExifDataOnClick() : this.#extractExifDataOnDrop()
