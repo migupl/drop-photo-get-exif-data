@@ -19,12 +19,23 @@ class DropPhotoForExif extends HTMLElement {
     connectedCallback() {
         this.#addCss();
         this.#addIcon();
+        this.#addHelperText();
     }
 
     #addCss = () => {
         const contentCss = document.createElement('style');
         contentCss.textContent = shadowCss;
         this.shadowRoot.appendChild(contentCss);
+    }
+
+    #addHelperText() {
+        const divEl = document.createElement('div');
+        divEl.className = 'item';
+        this.shadowRoot.appendChild(divEl);
+
+        const helpEl = document.createElement('span');
+        helpEl.textContent = this.#isMobile ? 'Choose files' : 'Drop files here';
+        divEl.appendChild(helpEl);
     }
 
     #addIcon = () => {
