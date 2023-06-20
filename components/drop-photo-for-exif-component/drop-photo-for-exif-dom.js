@@ -15,12 +15,14 @@ const shadowCss = `
 }
 
 .item {
-  min-height: 50px;
   margin: 10px;
 }
 
 div object {
   min-height: 50px;
+}
+
+div > * {
   position: relative;
   z-index: -1;
 }
