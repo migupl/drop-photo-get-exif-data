@@ -24,6 +24,26 @@ You can use the file *index.html* of the project as a small demo.
 
 A more interesting example could be the integration between images with location data and [maps](https://github.com/migupl/vanilla-js-web-component-leaflet-geojson), as we can see [here](https://migupl.github.io/where-was-the-photo-taken/).
 
+### Attributes
+
+The Web Component allows a *helperText* attribute with the text to display. The defaults are "Choose file" for mobile and "Drop files here" for other devices.
+
+By example, the following code
+
+```html
+<head>
+    <script type="module" src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+</head>
+<body>
+    <drop-photo-for-exif helperText="Select your files"></drop-photo-for-exif>
+</body>
+```
+
+shows
+
+![Example](./docs/mobile-with-custom-text.webp)
+
+
 ## Events
 
 See the _index.html_ file for a simple example.
