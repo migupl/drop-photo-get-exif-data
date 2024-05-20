@@ -142,13 +142,13 @@ import { shadowCss } from "./drop-photo-for-exif-dom.js";
         }
     }
 
-    let exifReaderjs = document.createElement('script');
-    exifReaderjs.src = 'https://cdn.jsdelivr.net/npm/exifreader@4.12.0/dist/exif-reader.min.js';
+    let exifReaderScriptEl = document.createElement('script');
+    exifReaderScriptEl.src = 'https://cdn.jsdelivr.net/npm/exifreader@4.12.0/dist/exif-reader.min.js';
 
-    exifReaderjs.onload = function (ev) {
+    exifReaderScriptEl.onload = function (ev) {
         customElements.define('drop-photo-for-exif', DropPhotoForExif);
-        exifReaderjs = null;
+        exifReaderScriptEl = null;
     }
 
-    document.body.append(exifReaderjs);
+    document.body.append(exifReaderScriptEl);
 })();
