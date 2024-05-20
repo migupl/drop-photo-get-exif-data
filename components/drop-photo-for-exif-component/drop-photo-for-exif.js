@@ -148,4 +148,4 @@ exifReaderjs.onload = function (ev) {
     exifReaderjs = null;
 }
 
-document.head.append(exifReaderjs);
+document.body.append(exifReaderjs);
