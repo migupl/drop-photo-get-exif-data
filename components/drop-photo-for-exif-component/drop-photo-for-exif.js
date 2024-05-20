@@ -1,7 +1,7 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
 import { shadowCss } from "./drop-photo-for-exif-dom.js";
 
-; (() => {
+; ((exifReaderLib) => {
     class DropPhotoForExif extends HTMLElement {
 
         #isMobile; #helperText;
@@ -143,7 +143,7 @@ import { shadowCss } from "./drop-photo-for-exif-dom.js";
     }
 
     let exifReaderScriptEl = document.createElement('script');
-    exifReaderScriptEl.src = 'https://cdn.jsdelivr.net/npm/exifreader@4.12.0/dist/exif-reader.min.js';
+    exifReaderScriptEl.src = exifReaderLib;
 
     exifReaderScriptEl.onload = function (ev) {
         customElements.define('drop-photo-for-exif', DropPhotoForExif);
@@ -151,4 +151,4 @@ import { shadowCss } from "./drop-photo-for-exif-dom.js";
     }
 
     document.body.append(exifReaderScriptEl);
-})();
+})('https://cdn.jsdelivr.net/npm/exifreader@4.12.0/dist/exif-reader.min.js');
