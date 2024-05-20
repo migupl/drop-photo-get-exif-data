@@ -1,6 +1,5 @@
 import { dropFiles } from "./drop-photo-for-exif-files.js";
 import { shadowCss } from "./drop-photo-for-exif-dom.js";
-import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
 
 ; (() => {
     class DropPhotoForExif extends HTMLElement {
@@ -143,7 +142,9 @@ import { getExifReaderScript } from "./drop-photo-for-exif-load.js";
         }
     }
 
-    let exifReaderjs = getExifReaderScript();
+    let exifReaderjs = document.createElement('script');
+    exifReaderjs.src = 'https://cdn.jsdelivr.net/npm/exifreader@4.12.0/dist/exif-reader.min.js';
+
     exifReaderjs.onload = function (ev) {
         customElements.define('drop-photo-for-exif', DropPhotoForExif);
         exifReaderjs = null;
