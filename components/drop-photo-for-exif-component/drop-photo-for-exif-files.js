@@ -70,14 +70,7 @@ class DropPhotoForExifFiles {
 
     #exploreDirectoryContent = dirEntry => {
         dirEntry.createReader()
-            .readEntries((entries) => {
-                const files = entries.filter((entry) => entry.isFile);
-                this.#filesToProcess(files.length - 1);
-
-                files.forEach(entryFile =>
-                    entryFile.file(this.#processFile)
-                )
-            });
+            .readEntries(this.#processDirectoryContent);
     }
 
     #filesToProcess = n => this._remainToCompleteBatch = (this._remainToCompleteBatch || 0) + n
@@ -92,6 +85,15 @@ class DropPhotoForExifFiles {
     #onCompletion = () => {
         --this._remainToCompleteBatch;
         if (!this._remainToCompleteBatch) this.#doOnCompletion();
+    }
+
+    #processDirectoryContent = entries => {
+        const files = entries.filter(entry => entry.isFile)
+
+        --this._remainToCompleteBatch
+        files.forEach(entryFile =>
+            entryFile.file(this.#processFile)
+        )
     }
 
     #processFile = file => {
