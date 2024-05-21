@@ -85,7 +85,7 @@ class DropPhotoForExifFiles {
     #processDirectoryContent = entries => {
         const files = entries.filter(entry => entry.isFile)
 
-        --this._remainToCompleteBatch
+        this._remainToCompleteBatch = --this._remainToCompleteBatch + files.length
         files.forEach(entryFile =>
             entryFile.file(this.#processFile)
         )
