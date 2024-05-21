@@ -1,5 +1,3 @@
-import { exifData } from "./drop-photo-for-exif-data.js";
-
 class DropPhotoForExifFiles {
 
     static ALLOWED_MIMETYPES = new Map([
@@ -46,6 +44,28 @@ class DropPhotoForExifFiles {
         }
     }
 
+    #processImage = file => ExifReader
+        .load(file)
+        .then(exif => {
+            let data = {
+                details: exif
+            };
+
+            if (exif.GPSLatitude && exif.GPSLongitude && exif.GPSLongitudeRef) {
+                data.location = {
+                    latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
+                    longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
+                }
+
+                if (exif.GPSAltitude) {
+                    const [value, divisor] = exif.GPSAltitude.value;
+                    data.location.altitude = value / divisor;
+                }
+            }
+
+            return data
+        })
+
     #isAnImage = file => file.type.startsWith('image/')
 
     #exploreDirectoryContent = dirEntry => {
@@ -77,8 +97,10 @@ class DropPhotoForExifFiles {
     #processFile = file => {
         const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
         if (this.#isAnImage(fileWithType)) {
-            exifData.extractExif(fileWithType)
-                .then((exif) => this.#afterImageReady(fileWithType, exif));
+            this.#processImage(fileWithType)
+                .then((exif) =>
+                    this.#afterImageReady(fileWithType, exif)
+                );
         }
         else {
             this.#afterFileReady(fileWithType);
