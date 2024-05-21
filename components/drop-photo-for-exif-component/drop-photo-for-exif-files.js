@@ -12,14 +12,14 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #onFileReady; #onImageReady; #doOnCompletion;
+    #onFileReady; #onImageReady; #onCompletion;
 
     process = (items
-        , onImageReady = (image, exif) => console.log('Do something after image is ready')
-        , onFileReady = file => console.log('Do something after file is ready')
-        , onCompletion = () => console.log('Do something on complete')) => {
+        , afterImageReady = (image, exif) => console.log('Do something after image is ready')
+        , afterFileReady = file => console.log('Do something after file is ready')
+        , afterCompletion = () => console.log('Do something on complete')) => {
 
-        this.#setAfterActions(onImageReady, onFileReady, onCompletion);
+        this.#setAfterActions(afterImageReady, afterFileReady, afterCompletion);
         this.#filesToProcess(items.length);
         this.#process(items);
     }
@@ -82,11 +82,6 @@ class DropPhotoForExifFiles {
         return ALLOWED_MIMETYPES.get(ext) || ''
     }
 
-    #onCompletion = () => {
-        --this._remainToCompleteBatch;
-        if (!this._remainToCompleteBatch) this.#doOnCompletion();
-    }
-
     #processDirectoryContent = entries => {
         const files = entries.filter(entry => entry.isFile)
 
@@ -109,18 +104,21 @@ class DropPhotoForExifFiles {
         }
     }
 
-    #setAfterActions = (onImageReady, onFileReady, onCompletion) => {
+    #setAfterActions = (afterImageReady, afterFileReady, afterCompletion) => {
         this.#onImageReady = (image, exif) => {
-            onImageReady(image, exif);
+            afterImageReady(image, exif);
             this.#onCompletion();
         };
 
         this.#onFileReady = file => {
-            onFileReady(file);
+            afterFileReady(file);
             this.#onCompletion();
         };
 
-        this.#doOnCompletion = onCompletion;
+        this.#onCompletion = () => {
+            --this._remainToCompleteBatch;
+            if (!this._remainToCompleteBatch) afterCompletion();
+        }
     }
 
     #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
