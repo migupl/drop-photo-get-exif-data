@@ -2,6 +2,18 @@ import { exifData } from "./drop-photo-for-exif-data.js";
 
 class DropPhotoForExifFiles {
 
+    static ALLOWED_MIMETYPES = new Map([
+        ['jpg', 'image/jpeg'],
+        ['jpeg', 'image/jpeg'],
+        ['jfif', 'image/jpeg'],
+        ['pjpeg', 'image/jpeg'],
+        ['pjp', 'image/jpeg'],
+        ['webp', 'image/webp'],
+        ['png', 'image/png'],
+        ['tif', 'image/tiff'],
+        ['tiff', 'image/tiff']
+    ]);
+
     #afterFileReady; #afterImageReady; #doOnCompletion;
 
     process = (items
@@ -54,7 +66,7 @@ class DropPhotoForExifFiles {
         const ext = filename.split('.').pop();
 
         if ('geojson' == ext) return 'application/geo+json';
-        return exifData.getAllowedMimetype(ext);
+        return ALLOWED_MIMETYPES.get(ext) || ''
     }
 
     #onCompletion = () => {
