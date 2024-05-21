@@ -12,14 +12,14 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #afterFileReady; #afterImageReady; #doOnCompletion;
+    #onFileReady; #onImageReady; #doOnCompletion;
 
     process = (items
-        , afterImageReady = (image, exif) => console.log('Do something after image is ready')
-        , afterFileReady = file => console.log('Do something after file is ready')
+        , onImageReady = (image, exif) => console.log('Do something after image is ready')
+        , onFileReady = file => console.log('Do something after file is ready')
         , onCompletion = () => console.log('Do something on complete')) => {
 
-        this.#setAfterActions(afterImageReady, afterFileReady, onCompletion);
+        this.#setAfterActions(onImageReady, onFileReady, onCompletion);
         this.#filesToProcess(items.length);
         this.#process(items);
     }
@@ -99,22 +99,22 @@ class DropPhotoForExifFiles {
         if (this.#isAnImage(fileWithType)) {
             this.#processImage(fileWithType)
                 .then((exif) =>
-                    this.#afterImageReady(fileWithType, exif)
+                    this.#onImageReady(fileWithType, exif)
                 );
         }
         else {
-            this.#afterFileReady(fileWithType);
+            this.#onFileReady(fileWithType);
         }
     }
 
-    #setAfterActions = (afterImageReady, afterFileReady, onCompletion) => {
-        this.#afterImageReady = (image, exif) => {
-            afterImageReady(image, exif);
+    #setAfterActions = (onImageReady, onFileReady, onCompletion) => {
+        this.#onImageReady = (image, exif) => {
+            onImageReady(image, exif);
             this.#onCompletion();
         };
 
-        this.#afterFileReady = file => {
-            afterFileReady(file);
+        this.#onFileReady = file => {
+            onFileReady(file);
             this.#onCompletion();
         };
 
