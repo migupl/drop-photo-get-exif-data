@@ -12,7 +12,7 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #onFileReady; #onImageReady;
+    #onFileReady; #onImageReady; #unproccessedItems;
 
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
@@ -73,7 +73,7 @@ class DropPhotoForExifFiles {
             .readEntries(this.#processDirectoryContent);
     }
 
-    #filesToProcess = n => this._remainToCompleteBatch = (this._remainToCompleteBatch || 0) + n
+    #filesToProcess = n => this.#unproccessedItems = (this.#unproccessedItems || 0) + n
 
     #mimetype = filename => {
         const ext = filename.split('.').pop();
@@ -85,7 +85,7 @@ class DropPhotoForExifFiles {
     #processDirectoryContent = entries => {
         const files = entries.filter(entry => entry.isFile)
 
-        this._remainToCompleteBatch = --this._remainToCompleteBatch + files.length
+        this.#unproccessedItems = --this.#unproccessedItems + files.length
         files.forEach(entryFile =>
             entryFile.file(this.#processFile)
         )
@@ -106,8 +106,8 @@ class DropPhotoForExifFiles {
 
     #setAfterActions = (afterImageReady, afterFileReady, afterCompletion) => {
         const onCompletion = () => {
-            --this._remainToCompleteBatch;
-            if (!this._remainToCompleteBatch) afterCompletion();
+            --this.#unproccessedItems;
+            if (!this.#unproccessedItems) afterCompletion();
         }
 
         this.#onImageReady = (image, exif) => {
