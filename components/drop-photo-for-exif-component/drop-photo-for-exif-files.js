@@ -1,6 +1,7 @@
 class DropPhotoForExifFiles {
 
     static ALLOWED_MIMETYPES = new Map([
+        ['geojson', 'application/geo+json'],
         ['jpg', 'image/jpeg'],
         ['jpeg', 'image/jpeg'],
         ['jfif', 'image/jpeg'],
@@ -77,8 +78,6 @@ class DropPhotoForExifFiles {
 
     #mimetype = filename => {
         const ext = filename.split('.').pop();
-
-        if ('geojson' == ext) return 'application/geo+json';
         return ALLOWED_MIMETYPES.get(ext) || ''
     }
 
