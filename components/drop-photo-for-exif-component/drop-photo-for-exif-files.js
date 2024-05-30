@@ -78,7 +78,7 @@ class DropPhotoForExifFiles {
 
     #mimetype = filename => {
         const ext = filename.split('.').pop();
-        return ALLOWED_MIMETYPES.get(ext) || ''
+        return DropPhotoForExifFiles.ALLOWED_MIMETYPES.get(ext) || ''
     }
 
     #processDirectoryContent = entries => {
