@@ -23,7 +23,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
 
         #addCss = () => {
             const contentCss = document.createElement('style');
-            contentCss.textContent = shadowCss;
+            contentCss.textContent = this.#shadowCss;
             this.shadowRoot.appendChild(contentCss);
         }
 
@@ -134,42 +134,42 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                 (this.#isMobile ? 'Choose files' : 'Drop files here');
         }
 
+        #shadowCss = `
+:host {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border-style: dashed;
+
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%);
+    transform: translate(-50%);
+}
+
+.item {
+    margin: 10px;
+}
+
+div object {
+    min-height: 50px;
+}
+
+div > * {
+    position: relative;
+    z-index: -1;
+}
+        `
+
         #stopDefaultsForDragAndDropEvents = () => {
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 this.addEventListener(eventName, this.#preventDefaults);
             });
         }
     }
-
-    const shadowCss = `
-:host {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 10px;
-  border-style: dashed;
-
-  position: absolute;
-  left: 50%;
-  -ms-transform: translate(-50%);
-  transform: translate(-50%);
-}
-
-.item {
-  margin: 10px;
-}
-
-div object {
-  min-height: 50px;
-}
-
-div > * {
-  position: relative;
-  z-index: -1;
-}
-`
 
     let exifReaderScriptEl = document.createElement('script');
     exifReaderScriptEl.src = exifReaderLib;
