@@ -76,7 +76,7 @@ class DropPhotoForExifFiles {
             .readEntries(this.#processDirectoryContent);
     }
 
-    #mimetype = filename => {
+    #getMimetype = filename => {
         const ext = filename.split('.').pop();
         return DropPhotoForExifFiles.ALLOWED_MIMETYPES.get(ext) || ''
     }
@@ -91,7 +91,7 @@ class DropPhotoForExifFiles {
     }
 
     #processFile = file => {
-        const fileWithType = file.type ? file : new File([file], file.name, { type: this.#mimetype(file.name) })
+        const fileWithType = new File([file], file.name, { type: this.#getMimetype(file.name) })
         if (this.#isAnImage(fileWithType)) {
             this.#processImage(fileWithType)
                 .then((exif) =>
