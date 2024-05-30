@@ -12,15 +12,17 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #onFileReady; #onImageReady; #unproccessedItems;
+    #onFileReady; #onImageReady;
+    #unproccessedItems = 0;
 
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
         , afterCompletion = () => console.log('Do something on complete')) => {
 
+        this.#unproccessedItems += items.length
+
         this.#setAfterActions(afterImageReady, afterFileReady, afterCompletion);
-        this.#filesToProcess(items.length);
         this.#process(items);
     }
 
@@ -72,8 +74,6 @@ class DropPhotoForExifFiles {
         dirEntry.createReader()
             .readEntries(this.#processDirectoryContent);
     }
-
-    #filesToProcess = n => this.#unproccessedItems = (this.#unproccessedItems || 0) + n
 
     #mimetype = filename => {
         const ext = filename.split('.').pop();
