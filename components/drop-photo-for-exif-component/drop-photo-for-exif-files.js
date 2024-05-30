@@ -12,7 +12,7 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #onFileReady; #onImageReady; #onCompletion;
+    #onFileReady; #onImageReady;
 
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
@@ -105,20 +105,20 @@ class DropPhotoForExifFiles {
     }
 
     #setAfterActions = (afterImageReady, afterFileReady, afterCompletion) => {
+        const onCompletion = () => {
+            --this._remainToCompleteBatch;
+            if (!this._remainToCompleteBatch) afterCompletion();
+        }
+
         this.#onImageReady = (image, exif) => {
             afterImageReady(image, exif);
-            this.#onCompletion();
+            onCompletion();
         };
 
         this.#onFileReady = file => {
             afterFileReady(file);
-            this.#onCompletion();
+            onCompletion();
         };
-
-        this.#onCompletion = () => {
-            --this._remainToCompleteBatch;
-            if (!this._remainToCompleteBatch) afterCompletion();
-        }
     }
 
     #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
