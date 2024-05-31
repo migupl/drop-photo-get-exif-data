@@ -75,11 +75,6 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             this.shadowRoot.dispatchEvent(evt);
         }
 
-        #preventDefaults = e => {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
         #process = (
             items,
             fireOnImage = this.#emitImageEvent,
@@ -157,7 +152,10 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
 
         #stopDefaultsForDragAndDropEvents = () => {
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                this.addEventListener(eventName, this.#preventDefaults);
+                this.addEventListener(eventName, e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
             });
         }
     }
