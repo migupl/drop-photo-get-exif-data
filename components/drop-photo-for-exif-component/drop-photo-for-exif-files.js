@@ -14,6 +14,8 @@ class DropPhotoForExifFiles {
     ]);
 
     #onFileReady; #onImageReady;
+
+    #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
     #unproccessedItems = 0;
 
     process = (items
@@ -119,8 +121,6 @@ class DropPhotoForExifFiles {
             onCompletion();
         };
     }
-
-    #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
 }
 
 const dropFiles = new DropPhotoForExifFiles();
