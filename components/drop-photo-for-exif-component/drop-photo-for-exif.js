@@ -23,20 +23,16 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             icon.className = 'item';
             icon.innerHTML = this.#config.icon
 
+            const legend = document.createElement('div');
+            legend.className = 'item';
+
+            const text = document.createElement('span');
+            text.textContent = this.#config.legend;
+            legend.appendChild(text);
+
             this.shadowRoot.appendChild(style);
             this.shadowRoot.appendChild(icon);
-
-            this.#addHelperText();
-        }
-
-        #addHelperText() {
-            const divEl = document.createElement('div');
-            divEl.className = 'item';
-            this.shadowRoot.appendChild(divEl);
-
-            const helpEl = document.createElement('span');
-            helpEl.textContent = this.#config.legend;
-            divEl.appendChild(helpEl);
+            this.shadowRoot.appendChild(legend);
         }
 
         #process = (
