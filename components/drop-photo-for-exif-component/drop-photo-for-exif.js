@@ -18,10 +18,15 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
         connectedCallback() {
             const style = document.createElement('style');
             style.textContent = this.#config.style;
-            this.#addIcon();
-            this.#addHelperText();
+
+            const icon = document.createElement('div');
+            icon.className = 'item';
+            icon.innerHTML = this.#config.icon
 
             this.shadowRoot.appendChild(style);
+            this.shadowRoot.appendChild(icon);
+
+            this.#addHelperText();
         }
 
         #addHelperText() {
@@ -32,13 +37,6 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             const helpEl = document.createElement('span');
             helpEl.textContent = this.#config.legend;
             divEl.appendChild(helpEl);
-        }
-
-        #addIcon = () => {
-            const divEl = document.createElement('div');
-            divEl.className = 'item';
-            divEl.innerHTML = this.#config.icon
-            this.shadowRoot.appendChild(divEl);
         }
 
         #process = (
