@@ -11,7 +11,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
 
             this.#configure();
 
-            this.#stopDefaultsForDragAndDropEvents();
+            this.#stopDropFileEvents();
             this.#config.processFiles();
         }
 
@@ -44,43 +44,40 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             this.shadowRoot.appendChild(divEl);
         }
 
-        #emitImageEvent = (image, exif) => {
-            const evt = new CustomEvent('drop-photo-for-exif:image', {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    name: image.name,
-                    image: image,
-                    location: exif.location,
-                    exif: exif.details
-                }
-            });
-            this.shadowRoot.dispatchEvent(evt);
-        }
-
-        #emitFileEvent = file => {
-            const evt = new CustomEvent('drop-photo-for-exif:file', {
-                bubbles: true,
-                composed: true,
-                detail: file
-            });
-            this.shadowRoot.dispatchEvent(evt);
-        }
-
-        #emitOnCompleted = () => {
-            const evt = new CustomEvent('drop-photo-for-exif:completed-batch', {
-                bubbles: true,
-                composed: true,
-            });
-            this.shadowRoot.dispatchEvent(evt);
-        }
-
         #process = (
-            items,
-            fireOnImage = this.#emitImageEvent,
-            fireOnFile = this.#emitFileEvent,
-            fireOnCompletion = this.#emitOnCompleted
-        ) => dropFiles.process(items, fireOnImage, fireOnFile, fireOnCompletion)
+            items
+        ) => {
+            const emitWhenImageReady = (image, exif) => {
+                const evt = new CustomEvent('drop-photo-for-exif:image', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        name: image.name,
+                        image: image,
+                        location: exif.location,
+                        exif: exif.details
+                    }
+                });
+                this.shadowRoot.dispatchEvent(evt);
+            };
+            const emitWhenFileReady = file => {
+                const evt = new CustomEvent('drop-photo-for-exif:file', {
+                    bubbles: true,
+                    composed: true,
+                    detail: file
+                });
+                this.shadowRoot.dispatchEvent(evt);
+            };
+            const emitOnCompleted = () => {
+                const evt = new CustomEvent('drop-photo-for-exif:completed-batch', {
+                    bubbles: true,
+                    composed: true,
+                });
+                this.shadowRoot.dispatchEvent(evt);
+            }
+
+            dropFiles.process(items, emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
+        }
 
         #configure = () => {
             const userAgent = navigator.userAgent || window.opera;
@@ -150,7 +147,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                 '}'
         }
 
-        #stopDefaultsForDragAndDropEvents = () => {
+        #stopDropFileEvents = () => {
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 this.addEventListener(eventName, e => {
                     e.preventDefault();
