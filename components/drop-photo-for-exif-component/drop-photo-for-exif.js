@@ -16,15 +16,12 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
         }
 
         connectedCallback() {
-            this.#addCss();
+            const style = document.createElement('style');
+            style.textContent = this.#config.style;
             this.#addIcon();
             this.#addHelperText();
-        }
 
-        #addCss = () => {
-            const contentCss = document.createElement('style');
-            contentCss.textContent = this.#config.style;
-            this.shadowRoot.appendChild(contentCss);
+            this.shadowRoot.appendChild(style);
         }
 
         #addHelperText() {
