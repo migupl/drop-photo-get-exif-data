@@ -12,7 +12,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             this.#configure();
 
             this.#stopDefaultsForDragAndDropEvents();
-            this.#extractExifData();
+            this.#config.processFiles();
         }
 
         connectedCallback() {
@@ -43,25 +43,6 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             divEl.innerHTML = this.#config.icon
             this.shadowRoot.appendChild(divEl);
         }
-
-        #extractExifData = () => this.#config.isMobile ? this.#extractExifDataOnClick() : this.#extractExifDataOnDrop()
-
-        #extractExifDataOnClick = () => this.addEventListener('click', (_, process = this.#process) => {
-            let input = document.createElement('input');
-            input.type = 'file';
-            input.multiple = "multiple"
-            input.onchange = _ => {
-                const files = Array.from(input.files);
-                process(files)
-            }
-
-            input.click();
-        })
-
-        #extractExifDataOnDrop = () => this.addEventListener('drop', (event) => {
-            const { items } = event.dataTransfer;
-            this.#process(items);
-        })
 
         #emitImageEvent = (image, exif) => {
             const evt = new CustomEvent('drop-photo-for-exif:image', {
@@ -117,7 +98,18 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                 icon:
                     '<svg fill="#000000" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">' +
                         '<path d="M0 26.016v-20q0-2.496 1.76-4.256t4.256-1.76h8q1.92 0 3.456 1.12t2.176 2.88h6.368q2.464 0 4.224 1.76t1.76 4.256v16q0 2.496-1.76 4.224t-4.224 1.76h-20q-2.496 0-4.256-1.76t-1.76-4.224zM4 26.016q0 0.832 0.576 1.408t1.44 0.576h1.984v-13.984q0-0.832 0.576-1.408t1.44-0.608h17.984v-1.984q0-0.832-0.576-1.408t-1.408-0.608h-10.016v-1.984q0-0.832-0.576-1.408t-1.408-0.608h-8q-0.832 0-1.44 0.608t-0.576 1.408v20zM18.016 23.008q0 2.080 1.44 3.552t3.552 1.44 3.52-1.44 1.472-3.552-1.472-3.52-3.52-1.472-3.552 1.472-1.44 3.52zM20 24v-1.984h2.016v-2.016h1.984v2.016h2.016v1.984h-2.016v2.016h-1.984v-2.016h-2.016z"></path>' +
-                    '</svg>'
+                    '</svg>',
+                processFiles: () => this.addEventListener('click', (_, process = this.#process) => {
+                    let input = document.createElement('input');
+                    input.type = 'file';
+                    input.multiple = "multiple"
+                    input.onchange = _ => {
+                        const files = Array.from(input.files);
+                        process(files)
+                    }
+
+                    input.click();
+                })
             };
             const dropFiles = {
                 legend: textAttr || 'Drop files here',
@@ -128,11 +120,14 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                             '<path d="M2755 7800 c-205 -32 -397 -130 -546 -279 -126 -127 -214 -278 -260 -451 -19 -71 -23 -110 -23 -240 -1 -182 17 -266 89 -417 53 -113 89 -166 172 -254 126 -133 293 -232 473 -280 122 -33 346 -33 474 -1 179 45 331 134 466 272 141 143 233 325 265 521 19 120 19 202 -1 320 -68 397 -366 710 -757 795 -88 19 -270 26 -352 14z" />' +
                             '<pathd="M6860 3450 l0 -510 -510 0 -510 0 0 -325 0 -325 510 0 510 0 0 -510 0 -510 325 0 325 0 0 510 0 510 510 0 510 0 0 325 0 325 -507 2 -508 3 -3 508 -2 507 -325 0 -325 0 0 -510z" />' +
                         '</g>' +
-                    '</svg>'
+                    '</svg>',
+                processFiles: () => this.addEventListener('drop', (event) => {
+                    const { items } = event.dataTransfer;
+                    this.#process(items);
+                })
             }
 
             this.#config = isMobile ? chooseFiles : dropFiles
-            this.#config.isMobile = isMobile
             this.#config.style =
                 ':host {' +
                     'display: flex;' +
