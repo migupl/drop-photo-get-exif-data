@@ -77,8 +77,6 @@ class DropPhotoForExifFiles {
             return data
         })
 
-    #isAnImage = file => file.type.startsWith('image/')
-
     #exploreDirectoryContent = dirEntry => {
         dirEntry.createReader()
             .readEntries(this.#processDirectoryContent);
@@ -99,8 +97,8 @@ class DropPhotoForExifFiles {
     }
 
     #processFile = file => {
-        const fileWithType = new File([file], file.name, { type: this.#getMimetype(file.name) })
-        if (this.#isAnImage(fileWithType)) {
+        const type = file.type || this.#getMimetype(file.name)
+        if (type.startsWith('image/')) {
             this.#processImage(file)
                 .then((exif) =>
                     this.#onFileReady(file, exif)
