@@ -25,7 +25,13 @@ class DropPhotoForExifFiles {
 
         this.#unproccessedItems += items.length
 
-        this.#setAfterActions(afterImageReady, afterFileReady, afterCompletion);
+        this.#onFileReady = (file, exif) => {
+            exif ? afterImageReady(file, exif) : afterFileReady(file);
+
+            --this.#unproccessedItems;
+            if (!this.#unproccessedItems) afterCompletion();
+        };
+
         this.#process(items);
     }
 
@@ -103,15 +109,6 @@ class DropPhotoForExifFiles {
         else {
             this.#onFileReady(fileWithType);
         }
-    }
-
-    #setAfterActions = (afterImageReady, afterFileReady, afterCompletion) => {
-        this.#onFileReady = (file, exif) => {
-            exif ? afterImageReady(file, exif) : afterFileReady(file);
-
-            --this.#unproccessedItems;
-            if (!this.#unproccessedItems) afterCompletion();
-        };
     }
 }
 
