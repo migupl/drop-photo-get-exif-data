@@ -101,13 +101,13 @@ class DropPhotoForExifFiles {
     #processFile = file => {
         const fileWithType = new File([file], file.name, { type: this.#getMimetype(file.name) })
         if (this.#isAnImage(fileWithType)) {
-            this.#processImage(fileWithType)
+            this.#processImage(file)
                 .then((exif) =>
-                    this.#onFileReady(fileWithType, exif)
+                    this.#onFileReady(file, exif)
                 );
         }
         else {
-            this.#onFileReady(fileWithType);
+            this.#onFileReady(file);
         }
     }
 }
