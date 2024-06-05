@@ -106,14 +106,11 @@ class DropPhotoForExifFiles {
     }
 
     #setAfterActions = (afterImageReady, afterFileReady, afterCompletion) => {
-        const onCompletion = () => {
-            --this.#unproccessedItems;
-            if (!this.#unproccessedItems) afterCompletion();
-        }
-
         this.#onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
-            onCompletion();
+
+            --this.#unproccessedItems;
+            if (!this.#unproccessedItems) afterCompletion();
         };
     }
 }
