@@ -97,7 +97,7 @@ class DropPhotoForExifFiles {
         if (this.#isAnImage(fileWithType)) {
             this.#processImage(fileWithType)
                 .then((exif) =>
-                    this.#onImageReady(fileWithType, exif)
+                    this.#onFileReady(fileWithType, exif)
                 );
         }
         else {
@@ -116,8 +116,8 @@ class DropPhotoForExifFiles {
             onCompletion();
         };
 
-        this.#onFileReady = file => {
-            afterFileReady(file);
+        this.#onFileReady = (file, exif) => {
+            exif ? afterImageReady(file, exif) : afterFileReady(file);
             onCompletion();
         };
     }
