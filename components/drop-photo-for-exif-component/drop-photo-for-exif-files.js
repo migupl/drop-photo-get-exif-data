@@ -13,7 +13,7 @@ class DropPhotoForExifFiles {
         ['tiff', 'image/tiff']
     ]);
 
-    #onFileReady; #onImageReady;
+    #onFileReady;
 
     #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
     #unproccessedItems = 0;
@@ -110,11 +110,6 @@ class DropPhotoForExifFiles {
             --this.#unproccessedItems;
             if (!this.#unproccessedItems) afterCompletion();
         }
-
-        this.#onImageReady = (image, exif) => {
-            afterImageReady(image, exif);
-            onCompletion();
-        };
 
         this.#onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
