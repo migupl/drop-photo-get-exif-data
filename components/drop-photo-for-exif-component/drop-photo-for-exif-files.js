@@ -24,6 +24,12 @@ class DropPhotoForExifFiles {
 
         const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
 
+        const exploreDirectoryContent = directory => {
+            directory
+                .createReader()
+                .readEntries(this.#processDirectoryContent);
+        }
+
         const processFile = async file => {
             ++this.#unproccessedItems
 
@@ -44,7 +50,7 @@ class DropPhotoForExifFiles {
             if (item.name) {
                 processFile(item)
             } else if (supportsWebkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
-                this.#exploreDirectoryContent(item.webkitGetAsEntry())
+                exploreDirectoryContent(item.webkitGetAsEntry())
             } else {
                 processFile(item.getAsFile())
             }
@@ -72,12 +78,6 @@ class DropPhotoForExifFiles {
 
             return data
         })
-
-    #exploreDirectoryContent = directory => {
-        directory
-            .createReader()
-            .readEntries(this.#processDirectoryContent);
-    }
 
     #getMimetype = filename => {
         const ext = filename.split('.').pop();
