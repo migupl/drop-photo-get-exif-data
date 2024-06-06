@@ -109,34 +109,28 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             items
         ) => {
             const emit = event => this.#config.shadow.dispatchEvent(event);
-            const emitWhenImageReady = (file, exifMetadata) => {
-                const evt = new CustomEvent('drop-photo-for-exif:image', {
+            const eventProperties = (file, metadata) => {
+                const properties = {
                     bubbles: true,
-                    composed: true,
-                    detail: {
+                    composed: true
+                }
+
+                if (metadata) {
+                    properties.detail = {
                         name: file.name,
                         image: file,
-                        location: exifMetadata.location,
-                        exif: exifMetadata.details
+                        location: metadata.location,
+                        exif: metadata.details
                     }
-                });
-                emit(evt);
-            };
-            const emitWhenFileReady = file => {
-                const evt = new CustomEvent('drop-photo-for-exif:file', {
-                    bubbles: true,
-                    composed: true,
-                    detail: file
-                });
-                emit(evt);
-            };
-            const emitOnCompleted = () => {
-                const evt = new CustomEvent('drop-photo-for-exif:completed-batch', {
-                    bubbles: true,
-                    composed: true,
-                });
-                emit(evt);
+                } else if (file) {
+                    properties.detail = file
+                }
+
+                return properties
             }
+            const emitWhenImageReady = (file, exifMetadata) => emit(new CustomEvent('drop-photo-for-exif:image', eventProperties(file, exifMetadata)))
+            const emitWhenFileReady = file => emit(new CustomEvent('drop-photo-for-exif:file', eventProperties(file)))
+            const emitOnCompleted = () => emit(new CustomEvent('drop-photo-for-exif:completed-batch', eventProperties()))
 
             dropFiles.process(items, emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
         }
