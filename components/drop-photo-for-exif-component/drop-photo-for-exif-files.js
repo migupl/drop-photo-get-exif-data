@@ -52,7 +52,7 @@ class DropPhotoForExifFiles {
                 details: exif
             };
 
-            if (exif.GPSLatitude && exif.GPSLongitude && exif.GPSLongitudeRef) {
+            if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
                 data.location = {
                     latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
                     longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
