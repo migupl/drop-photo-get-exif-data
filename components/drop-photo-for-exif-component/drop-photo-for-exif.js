@@ -132,7 +132,8 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
             const emitWhenFileReady = file => emit(new CustomEvent('drop-photo-for-exif:file', eventProperties(file)))
             const emitOnCompleted = () => emit(new CustomEvent('drop-photo-for-exif:completed-batch', eventProperties()))
 
-            dropFiles.process(items, emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
+            dropFiles(emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
+                .process(items)
         }
 
         #stopDropFileEvents = () => {

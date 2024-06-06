@@ -1,83 +1,81 @@
-class DropPhotoForExifFiles {
+const ALLOWED_MIMETYPES = {
+    geojson: 'application/geo+json',
+    jfif: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    jpg: 'image/jpeg',
+    pjpeg: 'image/jpeg',
+    pjp: 'image/jpeg',
+    png: 'image/png',
+    tiff: 'image/tiff',
+    tif: 'image/tiff',
+    webp: 'image/webp'
+};
 
-    process = (items
-        , afterImageReady = (image, exif) => console.log('Do something after image is ready')
-        , afterFileReady = file => console.log('Do something after file is ready')
-        , afterCompletion = () => console.log('Do something on complete')) => {
+const dropFiles = function (afterImageReady = (image, exif) => console.log('Do something after image is ready')
+    , afterFileReady = file => console.log('Do something after file is ready')
+    , afterCompletion = () => console.log('Do something on complete')) {
 
-        const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
-        let unproccessedItems = 0;
+    const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
+    let unproccessedItems = 0;
 
-        const ALLOWED_MIMETYPES = {
-            geojson: 'application/geo+json',
-            jfif: 'image/jpeg',
-            jpeg: 'image/jpeg',
-            jpg: 'image/jpeg',
-            pjpeg: 'image/jpeg',
-            pjp: 'image/jpeg',
-            png: 'image/png',
-            tiff: 'image/tiff',
-            tif: 'image/tiff',
-            webp: 'image/webp'
-        };
+    const exploreDirectoryContent = directory => {
+        directory
+            .createReader()
+            .readEntries(processDirectoryContent);
+    }
 
-        const exploreDirectoryContent = directory => {
-            directory
-                .createReader()
-                .readEntries(processDirectoryContent);
-        }
+    const getExifMetadata = file => ExifReader
+        .load(file)
+        .then(exif => {
+            let data = {
+                details: exif
+            };
 
-        const getExifMetadata = file => ExifReader
-            .load(file)
-            .then(exif => {
-                let data = {
-                    details: exif
-                };
-
-                if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
-                    data.location = {
-                        latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
-                        longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
-                    }
-
-                    if (exif.GPSAltitude) {
-                        const [value, divisor] = exif.GPSAltitude.value;
-                        data.location.altitude = value / divisor;
-                    }
+            if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
+                data.location = {
+                    latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
+                    longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
                 }
 
-                return data
-            })
+                if (exif.GPSAltitude) {
+                    const [value, divisor] = exif.GPSAltitude.value;
+                    data.location.altitude = value / divisor;
+                }
+            }
 
-        const getMimetype = filename => {
-            const ext = filename.split('.').pop();
-            return ALLOWED_MIMETYPES[ext] || ''
-        }
+            return data
+        })
 
-        const onFileReady = (file, exif) => {
-            exif ? afterImageReady(file, exif) : afterFileReady(file);
+    const getMimetype = filename => {
+        const ext = filename.split('.').pop();
+        return ALLOWED_MIMETYPES[ext] || ''
+    }
 
-            --unproccessedItems;
-            if (!unproccessedItems) afterCompletion();
-        };
+    const onFileReady = (file, exif) => {
+        exif ? afterImageReady(file, exif) : afterFileReady(file);
 
-        const processDirectoryContent = entries => {
-            const files = entries.filter(entry => entry.isFile)
+        --unproccessedItems;
+        if (!unproccessedItems) afterCompletion();
+    };
 
-            files.forEach(entryFile =>
-                entryFile.file(processFile)
-            )
-        }
+    const processDirectoryContent = entries => {
+        const files = entries.filter(entry => entry.isFile)
 
-        const processFile = async file => {
-            ++unproccessedItems
+        files.forEach(entryFile =>
+            entryFile.file(processFile)
+        )
+    }
 
-            const typedFile = file.type ? file : new File([file], file.name, { type: getMimetype(file.name) })
-            const exifMetadata = typedFile.type.startsWith('image/') && await getExifMetadata(typedFile);
+    const processFile = async file => {
+        ++unproccessedItems
 
-            onFileReady(typedFile, exifMetadata)
-        }
+        const typedFile = file.type ? file : new File([file], file.name, { type: getMimetype(file.name) })
+        const exifMetadata = typedFile.type.startsWith('image/') && await getExifMetadata(typedFile);
 
+        onFileReady(typedFile, exifMetadata)
+    }
+
+    const process = items => {
         for (let item of items) {
             if (item.name) {
                 processFile(item)
@@ -87,8 +85,11 @@ class DropPhotoForExifFiles {
                 processFile(item.getAsFile())
             }
         }
-    }
-}
 
-const dropFiles = new DropPhotoForExifFiles();
+    }
+
+    return {
+        process
+    }
+};
 export { dropFiles }
