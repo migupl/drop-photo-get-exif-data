@@ -47,7 +47,7 @@ class DropPhotoForExifFiles {
         }
     }
 
-    #processImage = file => ExifReader
+    #getExifMetadata = file => ExifReader
         .load(file)
         .then(exif => {
             let data = {
@@ -90,7 +90,7 @@ class DropPhotoForExifFiles {
 
     #processFile = async file => {
         const type = file.type || this.#getMimetype(file.name);
-        const exifMetadata = type.startsWith('image/') && await this.#processImage(file);
+        const exifMetadata = type.startsWith('image/') && await this.#getExifMetadata(file);
 
         this.#onFileReady(file, exifMetadata)
     }
