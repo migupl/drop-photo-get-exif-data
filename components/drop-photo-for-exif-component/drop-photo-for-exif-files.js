@@ -1,17 +1,17 @@
 class DropPhotoForExifFiles {
 
-    static ALLOWED_MIMETYPES = new Map([
-        ['geojson', 'application/geo+json'],
-        ['jpg', 'image/jpeg'],
-        ['jpeg', 'image/jpeg'],
-        ['jfif', 'image/jpeg'],
-        ['pjpeg', 'image/jpeg'],
-        ['pjp', 'image/jpeg'],
-        ['webp', 'image/webp'],
-        ['png', 'image/png'],
-        ['tif', 'image/tiff'],
-        ['tiff', 'image/tiff']
-    ]);
+    static ALLOWED_MIMETYPES = {
+        geojson: 'application/geo+json',
+        jfif: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        jpg: 'image/jpeg',
+        pjpeg: 'image/jpeg',
+        pjp: 'image/jpeg',
+        png: 'image/png',
+        tiff: 'image/tiff',
+        tif: 'image/tiff',
+        webp: 'image/webp'
+    };
 
     #onFileReady;
 
@@ -75,7 +75,7 @@ class DropPhotoForExifFiles {
 
     #getMimetype = filename => {
         const ext = filename.split('.').pop();
-        return DropPhotoForExifFiles.ALLOWED_MIMETYPES.get(ext) || ''
+        return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
     }
 
     #processDirectoryContent = entries => {
