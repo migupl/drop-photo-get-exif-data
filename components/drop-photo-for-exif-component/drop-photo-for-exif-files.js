@@ -30,6 +30,11 @@ class DropPhotoForExifFiles {
                 .readEntries(processDirectoryContent);
         }
 
+        const getMimetype = filename => {
+            const ext = filename.split('.').pop();
+            return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
+        }
+
         const processDirectoryContent = entries => {
             const files = entries.filter(entry => entry.isFile)
 
@@ -41,7 +46,7 @@ class DropPhotoForExifFiles {
         const processFile = async file => {
             ++this.#unproccessedItems
 
-            const type = file.type || this.#getMimetype(file.name);
+            const type = file.type || getMimetype(file.name);
             const exifMetadata = type.startsWith('image/') && await this.#getExifMetadata(file);
 
             this.#onFileReady(file, exifMetadata)
