@@ -23,8 +23,6 @@ class DropPhotoForExifFiles {
         , afterFileReady = file => console.log('Do something after file is ready')
         , afterCompletion = () => console.log('Do something on complete')) => {
 
-        this.#unproccessedItems += items.length
-
         this.#onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
 
@@ -83,13 +81,14 @@ class DropPhotoForExifFiles {
     #processDirectoryContent = entries => {
         const files = entries.filter(entry => entry.isFile)
 
-        this.#unproccessedItems = --this.#unproccessedItems + files.length
         files.forEach(entryFile =>
             entryFile.file(this.#processFile)
         )
     }
 
     #processFile = async file => {
+        ++this.#unproccessedItems
+
         const type = file.type || this.#getMimetype(file.name);
         const exifMetadata = type.startsWith('image/') && await this.#getExifMetadata(file);
 
