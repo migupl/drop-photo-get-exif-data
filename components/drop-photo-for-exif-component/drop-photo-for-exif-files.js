@@ -69,8 +69,9 @@ class DropPhotoForExifFiles {
             return data
         })
 
-    #exploreDirectoryContent = dirEntry => {
-        dirEntry.createReader()
+    #exploreDirectoryContent = directory => {
+        directory
+            .createReader()
             .readEntries(this.#processDirectoryContent);
     }
 
