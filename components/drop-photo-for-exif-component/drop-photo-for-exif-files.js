@@ -13,14 +13,13 @@ class DropPhotoForExifFiles {
         webp: 'image/webp'
     };
 
-    #unproccessedItems = 0;
-
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
         , afterCompletion = () => console.log('Do something on complete')) => {
 
         const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
+        let unproccessedItems = 0;
 
         const exploreDirectoryContent = directory => {
             directory
@@ -58,8 +57,8 @@ class DropPhotoForExifFiles {
         const onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
 
-            --this.#unproccessedItems;
-            if (!this.#unproccessedItems) afterCompletion();
+            --unproccessedItems;
+            if (!unproccessedItems) afterCompletion();
         };
 
         const processDirectoryContent = entries => {
@@ -71,7 +70,7 @@ class DropPhotoForExifFiles {
         }
 
         const processFile = async file => {
-            ++this.#unproccessedItems
+            ++unproccessedItems
 
             const type = file.type || getMimetype(file.name);
             const exifMetadata = type.startsWith('image/') && await getExifMetadata(file);
