@@ -15,13 +15,14 @@ class DropPhotoForExifFiles {
 
     #onFileReady;
 
-    #supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
     #unproccessedItems = 0;
 
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
         , afterCompletion = () => console.log('Do something on complete')) => {
+
+        const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
 
         this.#onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
@@ -33,7 +34,7 @@ class DropPhotoForExifFiles {
         for (let item of items) {
             if (item.name) {
                 this.#processFile(item)
-            } else if (this.#supportsWebkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
+            } else if (supportsWebkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
                 this.#exploreDirectoryContent(item.webkitGetAsEntry())
             } else {
                 this.#processFile(item.getAsFile())
