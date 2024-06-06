@@ -108,6 +108,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
         #process = (
             items
         ) => {
+            const emit = event => this.#config.shadow.dispatchEvent(event);
             const emitWhenImageReady = (file, exifMetadata) => {
                 const evt = new CustomEvent('drop-photo-for-exif:image', {
                     bubbles: true,
@@ -119,7 +120,7 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                         exif: exifMetadata.details
                     }
                 });
-                this.#config.shadow.dispatchEvent(evt);
+                emit(evt);
             };
             const emitWhenFileReady = file => {
                 const evt = new CustomEvent('drop-photo-for-exif:file', {
@@ -127,14 +128,14 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
                     composed: true,
                     detail: file
                 });
-                this.#config.shadow.dispatchEvent(evt);
+                emit(evt);
             };
             const emitOnCompleted = () => {
                 const evt = new CustomEvent('drop-photo-for-exif:completed-batch', {
                     bubbles: true,
                     composed: true,
                 });
-                this.#config.shadow.dispatchEvent(evt);
+                emit(evt);
             }
 
             dropFiles.process(items, emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
