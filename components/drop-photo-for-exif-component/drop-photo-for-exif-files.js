@@ -30,10 +30,6 @@ class DropPhotoForExifFiles {
             if (!this.#unproccessedItems) afterCompletion();
         };
 
-        this.#process(items);
-    }
-
-    #process = items => {
         for (let item of items) {
             if (item.name) {
                 this.#processFile(item)
