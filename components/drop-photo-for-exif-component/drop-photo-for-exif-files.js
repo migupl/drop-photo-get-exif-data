@@ -27,7 +27,15 @@ class DropPhotoForExifFiles {
         const exploreDirectoryContent = directory => {
             directory
                 .createReader()
-                .readEntries(this.#processDirectoryContent);
+                .readEntries(processDirectoryContent);
+        }
+
+        const processDirectoryContent = entries => {
+            const files = entries.filter(entry => entry.isFile)
+
+            files.forEach(entryFile =>
+                entryFile.file(processFile)
+            )
         }
 
         const processFile = async file => {
@@ -82,23 +90,6 @@ class DropPhotoForExifFiles {
     #getMimetype = filename => {
         const ext = filename.split('.').pop();
         return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
-    }
-
-    #processDirectoryContent = entries => {
-        const files = entries.filter(entry => entry.isFile)
-
-        files.forEach(entryFile =>
-            entryFile.file(this.#processFile)
-        )
-    }
-
-    #processFile = async file => {
-        ++this.#unproccessedItems
-
-        const type = file.type || this.#getMimetype(file.name);
-        const exifMetadata = type.startsWith('image/') && await this.#getExifMetadata(file);
-
-        this.#onFileReady(file, exifMetadata)
     }
 }
 
