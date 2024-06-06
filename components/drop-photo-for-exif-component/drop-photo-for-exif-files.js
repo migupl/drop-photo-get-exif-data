@@ -1,19 +1,19 @@
-const ALLOWED_MIMETYPES = {
-    geojson: 'application/geo+json',
-    jfif: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    jpg: 'image/jpeg',
-    pjpeg: 'image/jpeg',
-    pjp: 'image/jpeg',
-    png: 'image/png',
-    tiff: 'image/tiff',
-    tif: 'image/tiff',
-    webp: 'image/webp'
-};
-
 const dropFiles = function (afterImageReady = (image, exif) => console.log('Do something after image is ready')
     , afterFileReady = file => console.log('Do something after file is ready')
     , afterCompletion = () => console.log('Do something on complete')) {
+
+    const acceptedMimetypes = {
+        geojson: 'application/geo+json',
+        jfif: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        jpg: 'image/jpeg',
+        pjpeg: 'image/jpeg',
+        pjp: 'image/jpeg',
+        png: 'image/png',
+        tiff: 'image/tiff',
+        tif: 'image/tiff',
+        webp: 'image/webp'
+    };
 
     const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
     let unproccessedItems = 0;
@@ -48,7 +48,7 @@ const dropFiles = function (afterImageReady = (image, exif) => console.log('Do s
 
     const getMimetype = filename => {
         const ext = filename.split('.').pop();
-        return ALLOWED_MIMETYPES[ext] || ''
+        return acceptedMimetypes[ext] || ''
     }
 
     const onFileReady = (file, exif) => {
