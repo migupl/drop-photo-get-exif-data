@@ -108,15 +108,15 @@ import { dropFiles } from "./drop-photo-for-exif-files.js";
         #process = (
             items
         ) => {
-            const emitWhenImageReady = (image, exif) => {
+            const emitWhenImageReady = (file, exifMetadata) => {
                 const evt = new CustomEvent('drop-photo-for-exif:image', {
                     bubbles: true,
                     composed: true,
                     detail: {
-                        name: image.name,
-                        image: image,
-                        location: exif.location,
-                        exif: exif.details
+                        name: file.name,
+                        image: file,
+                        location: exifMetadata.location,
+                        exif: exifMetadata.details
                     }
                 });
                 this.#config.shadow.dispatchEvent(evt);
