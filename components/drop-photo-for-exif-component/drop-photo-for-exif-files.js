@@ -1,18 +1,5 @@
 class DropPhotoForExifFiles {
 
-    static ALLOWED_MIMETYPES = {
-        geojson: 'application/geo+json',
-        jfif: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        jpg: 'image/jpeg',
-        pjpeg: 'image/jpeg',
-        pjp: 'image/jpeg',
-        png: 'image/png',
-        tiff: 'image/tiff',
-        tif: 'image/tiff',
-        webp: 'image/webp'
-    };
-
     process = (items
         , afterImageReady = (image, exif) => console.log('Do something after image is ready')
         , afterFileReady = file => console.log('Do something after file is ready')
@@ -20,6 +7,19 @@ class DropPhotoForExifFiles {
 
         const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
         let unproccessedItems = 0;
+
+        const ALLOWED_MIMETYPES = {
+            geojson: 'application/geo+json',
+            jfif: 'image/jpeg',
+            jpeg: 'image/jpeg',
+            jpg: 'image/jpeg',
+            pjpeg: 'image/jpeg',
+            pjp: 'image/jpeg',
+            png: 'image/png',
+            tiff: 'image/tiff',
+            tif: 'image/tiff',
+            webp: 'image/webp'
+        };
 
         const exploreDirectoryContent = directory => {
             directory
@@ -51,7 +51,7 @@ class DropPhotoForExifFiles {
 
         const getMimetype = filename => {
             const ext = filename.split('.').pop();
-            return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
+            return ALLOWED_MIMETYPES[ext] || ''
         }
 
         const onFileReady = (file, exif) => {
