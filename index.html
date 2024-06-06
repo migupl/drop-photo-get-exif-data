@@ -30,9 +30,9 @@
     <style>
         .container {
             display: flex;
-            flex-flow: row wrap;
+            flex-flow: column wrap;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
         }
 
         drop-photo-for-exif {
@@ -62,8 +62,8 @@
             border-radius: 5px;
             border-style: solid;
             border-color: #3c3c3c;
-            ;
-            width: 30%;
+
+            width: 90%;
             max-height: max(15rem, 40vh);
             overflow-y: scroll;
             margin: 5px 5px;
@@ -74,6 +74,23 @@
             max-height: max(10rem, 30vh);
             margin: auto;
             display: block;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-flow: row wrap;
+                align-items: flex-start;
+            }
+
+            .item {
+                width: 45%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .item {
+                width: 30%;
+            }
         }
     </style>
 </head>
