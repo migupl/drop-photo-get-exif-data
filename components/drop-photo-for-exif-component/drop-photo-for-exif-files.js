@@ -72,10 +72,10 @@ class DropPhotoForExifFiles {
         const processFile = async file => {
             ++unproccessedItems
 
-            const type = file.type || getMimetype(file.name);
-            const exifMetadata = type.startsWith('image/') && await getExifMetadata(file);
+            const typedFile = file.type ? file : new File([file], file.name, { type: getMimetype(file.name) })
+            const exifMetadata = typedFile.type.startsWith('image/') && await getExifMetadata(typedFile);
 
-            onFileReady(file, exifMetadata)
+            onFileReady(typedFile, exifMetadata)
         }
 
         for (let item of items) {
