@@ -13,8 +13,6 @@ class DropPhotoForExifFiles {
         webp: 'image/webp'
     };
 
-    #onFileReady;
-
     #unproccessedItems = 0;
 
     process = (items
@@ -57,6 +55,13 @@ class DropPhotoForExifFiles {
             return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
         }
 
+        const onFileReady = (file, exif) => {
+            exif ? afterImageReady(file, exif) : afterFileReady(file);
+
+            --this.#unproccessedItems;
+            if (!this.#unproccessedItems) afterCompletion();
+        };
+
         const processDirectoryContent = entries => {
             const files = entries.filter(entry => entry.isFile)
 
@@ -71,15 +76,8 @@ class DropPhotoForExifFiles {
             const type = file.type || getMimetype(file.name);
             const exifMetadata = type.startsWith('image/') && await getExifMetadata(file);
 
-            this.#onFileReady(file, exifMetadata)
+            onFileReady(file, exifMetadata)
         }
-
-        this.#onFileReady = (file, exif) => {
-            exif ? afterImageReady(file, exif) : afterFileReady(file);
-
-            --this.#unproccessedItems;
-            if (!this.#unproccessedItems) afterCompletion();
-        };
 
         for (let item of items) {
             if (item.name) {
