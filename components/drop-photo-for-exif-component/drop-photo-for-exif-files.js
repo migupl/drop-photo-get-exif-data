@@ -30,6 +30,28 @@ class DropPhotoForExifFiles {
                 .readEntries(processDirectoryContent);
         }
 
+        const getExifMetadata = file => ExifReader
+            .load(file)
+            .then(exif => {
+                let data = {
+                    details: exif
+                };
+
+                if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
+                    data.location = {
+                        latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
+                        longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
+                    }
+
+                    if (exif.GPSAltitude) {
+                        const [value, divisor] = exif.GPSAltitude.value;
+                        data.location.altitude = value / divisor;
+                    }
+                }
+
+                return data
+            })
+
         const getMimetype = filename => {
             const ext = filename.split('.').pop();
             return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
@@ -47,7 +69,7 @@ class DropPhotoForExifFiles {
             ++this.#unproccessedItems
 
             const type = file.type || getMimetype(file.name);
-            const exifMetadata = type.startsWith('image/') && await this.#getExifMetadata(file);
+            const exifMetadata = type.startsWith('image/') && await getExifMetadata(file);
 
             this.#onFileReady(file, exifMetadata)
         }
@@ -68,33 +90,6 @@ class DropPhotoForExifFiles {
                 processFile(item.getAsFile())
             }
         }
-    }
-
-    #getExifMetadata = file => ExifReader
-        .load(file)
-        .then(exif => {
-            let data = {
-                details: exif
-            };
-
-            if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
-                data.location = {
-                    latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
-                    longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
-                }
-
-                if (exif.GPSAltitude) {
-                    const [value, divisor] = exif.GPSAltitude.value;
-                    data.location.altitude = value / divisor;
-                }
-            }
-
-            return data
-        })
-
-    #getMimetype = filename => {
-        const ext = filename.split('.').pop();
-        return DropPhotoForExifFiles.ALLOWED_MIMETYPES[ext] || ''
     }
 }
 
