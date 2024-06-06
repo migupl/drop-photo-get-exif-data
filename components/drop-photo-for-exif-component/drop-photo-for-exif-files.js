@@ -88,17 +88,11 @@ class DropPhotoForExifFiles {
         )
     }
 
-    #processFile = file => {
-        const type = file.type || this.#getMimetype(file.name)
-        if (type.startsWith('image/')) {
-            this.#processImage(file)
-                .then((exif) =>
-                    this.#onFileReady(file, exif)
-                );
-        }
-        else {
-            this.#onFileReady(file);
-        }
+    #processFile = async file => {
+        const type = file.type || this.#getMimetype(file.name);
+        const exifMetadata = type.startsWith('image/') && await this.#processImage(file);
+
+        this.#onFileReady(file, exifMetadata)
     }
 }
 
