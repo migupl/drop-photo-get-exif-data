@@ -13,7 +13,7 @@ To get started you need to import the Web Component
 
 ```html
 <head>
-    <script type="module" src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+    <script src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
 </head>
 <body>
     <drop-photo-for-exif></drop-photo-for-exif>
@@ -32,7 +32,7 @@ By example, the following code
 
 ```html
 <head>
-    <script type="module" src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+    <script src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
 </head>
 <body>
     <drop-photo-for-exif helperText="Select your files"></drop-photo-for-exif>
@@ -134,4 +134,5 @@ Good luck and I hope you enjoy it.
 
 [^1]: Dropping files is the default interaction, but when a mobile browser is detected you will be able to select the files to add
 [^2]: Only one level deep
-[^3]: GeoJSON is a format for encoding a variety of geographic data structures([GeoJSON Specification (RFC 7946)](https://tools.ietf.org/html/rfc7946))
+[^3]: GeoJSON is a format for encoding a variety of geographic data structures ([GeoJSON Specification (RFC 7946)](https://tools.ietf.org/html/rfc7946))
+
