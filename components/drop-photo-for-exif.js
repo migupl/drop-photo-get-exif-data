@@ -164,6 +164,7 @@
         let unproccessedItems = 0;
 
         const exploreDirectoryContent = directory => {
+            ++unproccessedItems
             directory
                 .createReader()
                 .readEntries(processDirectoryContent);
@@ -196,6 +197,15 @@
             return significantMimetypes[ext] || ''
         }
 
+        const classifyItem = item => {
+            const isFile = item.lastModified != undefined;
+            const directory = isFile ? undefined : (item?.isDirectory && item) ?? (item?.webkitGetAsEntry().isDirectory && item.webkitGetAsEntry());
+            return {
+                directory: directory,
+                file: (item.name && item) ?? (item?.webkitGetAsEntry().isFile && item.getAsFile())
+            }
+        }
+
         const onFileReady = (file, exif) => {
             exif ? afterImageReady(file, exif) : afterFileReady(file);
 
@@ -204,8 +214,12 @@
         };
 
         const processDirectoryContent = entries => {
-            const files = entries.filter(entry => entry.isFile)
+            --unproccessedItems
 
+            const subdirectories = entries.filter(entry => entry.isDirectory);
+            process(subdirectories)
+
+            const files = entries.filter(entry => entry.isFile);
             files.forEach(entryFile =>
                 entryFile.file(processFile)
             )
@@ -222,15 +236,9 @@
 
         const process = items => {
             for (let item of items) {
-                if (item.name) {
-                    processFile(item)
-                } else if (item?.webkitGetAsEntry().isDirectory) {
-                    exploreDirectoryContent(item.webkitGetAsEntry())
-                } else {
-                    processFile(item.getAsFile())
-                }
+                const itemType = classifyItem(item);
+                itemType.directory ? exploreDirectoryContent(itemType.directory) : processFile(itemType.file)
             }
-
         }
 
         return {
