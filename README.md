@@ -5,7 +5,7 @@ A simple solution for obtaining EXIF data from photos (the main goal), but you c
 
 ## Install
 
-Copy the directory */components/drop-photo-for-exif-component/* to any directory in your project.
+Copy the file */components/drop-photo-for-exif.js* to any directory in your project.
 
 ## Getting started
 
@@ -13,7 +13,7 @@ To get started you need to import the Web Component
 
 ```html
 <head>
-    <script src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+    <script src="./components/drop-photo-for-exif.js"></script>
 </head>
 <body>
     <drop-photo-for-exif></drop-photo-for-exif>
@@ -32,7 +32,7 @@ By example, the following code
 
 ```html
 <head>
-    <script src="./components/drop-photo-for-exif-component/drop-photo-for-exif.js"></script>
+    <script src="./components/drop-photo-for-exif.js"></script>
 </head>
 <body>
     <drop-photo-for-exif helperText="Select your files"></drop-photo-for-exif>
