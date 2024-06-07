@@ -161,7 +161,6 @@
             webp: 'image/webp'
         };
 
-        const supportsWebkitGetAsEntry = 'webkitGetAsEntry' in DataTransferItem.prototype;
         let unproccessedItems = 0;
 
         const exploreDirectoryContent = directory => {
@@ -225,7 +224,7 @@
             for (let item of items) {
                 if (item.name) {
                     processFile(item)
-                } else if (supportsWebkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
+                } else if (item?.webkitGetAsEntry().isDirectory) {
                     exploreDirectoryContent(item.webkitGetAsEntry())
                 } else {
                     processFile(item.getAsFile())
