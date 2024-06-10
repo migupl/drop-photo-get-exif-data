@@ -26,7 +26,7 @@ A more interesting example could be the integration between images with location
 
 ### Attributes
 
-The Web Component allows a *helperText* attribute with the text to display. The defaults are "Choose file" for mobile and "Drop files here" for other devices.
+The Web Component allows a *helperText* attribute with the text to display. The default is "Drop files here".
 
 By example, the following code
 
