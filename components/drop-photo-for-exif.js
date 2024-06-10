@@ -23,10 +23,7 @@
 
             const legend = document.createElement('div');
             legend.className = 'item';
-
-            const text = document.createElement('span');
-            text.textContent = this.#config.legend;
-            legend.appendChild(text);
+            legend.textContent = this.#config.legend;
 
             const content = document.createElement('div');
             content.id = 'legend-area';
