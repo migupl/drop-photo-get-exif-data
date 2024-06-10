@@ -95,7 +95,7 @@
                 })
             };
             const dropFiles = {
-                legend: textAttr || 'Drop files here or',
+                legend: textAttr || 'Drag files here or',
                 icon:
                     '<svg id="drop-image" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">' +
                         '<g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">' +
