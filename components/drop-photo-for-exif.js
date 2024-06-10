@@ -19,7 +19,7 @@
 
             const icon = document.createElement('div');
             icon.className = 'item';
-            icon.innerHTML = this.#config.icon
+            icon.innerHTML = this.#config.icon;
 
             const legend = document.createElement('div');
             legend.className = 'item';
@@ -28,10 +28,15 @@
             text.textContent = this.#config.legend;
             legend.appendChild(text);
 
+            const content = document.createElement('div');
+            content.id = 'legend-area';
+
+            content.appendChild(icon);
+            content.appendChild(legend);
+
             const shadow = this.#config.shadow;
             shadow.appendChild(style);
-            shadow.appendChild(icon);
-            shadow.appendChild(legend);
+            shadow.appendChild(content);
         }
 
         #configure = shadowRoot => {
@@ -77,7 +82,7 @@
             this.#config = isMobile ? chooseFiles : dropFiles
             this.#config.shadow = shadowRoot
             this.#config.style =
-                ':host {' +
+                ':host #legend-area {' +
                     'display: flex;' +
                     'flex-wrap: wrap;' +
                     'justify-content: center;' +
