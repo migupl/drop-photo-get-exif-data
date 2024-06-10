@@ -82,14 +82,6 @@
                     'flex-wrap: wrap;' +
                     'justify-content: center;' +
                     'align-items: center;' +
-                    '' +
-                    'border-radius: 10px;' +
-                    'border-style: dashed;' +
-                    '' +
-                    'position: absolute;' +
-                    'left: 50%;' +
-                    '-ms-transform: translate(-50%);' +
-                    'transform: translate(-50%);' +
                 '}' +
                 '.item {' +
                     'margin: 10px;' +
