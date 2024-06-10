@@ -21,9 +21,24 @@
             icon.className = 'item';
             icon.innerHTML = this.#config.icon;
 
+            const hidden = document.createElement('input');
+            hidden.type = 'file';
+            hidden.multiple = "multiple"
+            hidden.onchange = _ => {
+                const files = Array.from(hidden.files);
+                this.#process(files)
+            }
+
+            const upload = document.createElement('span');
+            upload.role = 'button';
+            upload.className = 'upload';
+            upload.textContent = 'upload files';
+            upload.onclick = _ => hidden.click()
+
             const legend = document.createElement('div');
             legend.className = 'item';
-            legend.textContent = this.#config.legend;
+            legend.textContent = this.#config.legend + ' ';
+            legend.appendChild(upload);
 
             const content = document.createElement('div');
             content.id = 'legend-area';
@@ -80,7 +95,7 @@
                 })
             };
             const dropFiles = {
-                legend: textAttr || 'Drop files here',
+                legend: textAttr || 'Drop files here or',
                 icon:
                     '<svg id="drop-image" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">' +
                         '<g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">' +
@@ -128,7 +143,13 @@
                 '}' +
                 'div > * {' +
                     'position: relative;' +
-                    'z-index: -1;' +
+                '}' +
+                '.upload {' +
+                    'color: blue;' +
+                    'cursor: pointer;' +
+                '}' +
+                '.upload:hover {' +
+                    'text-decoration: underline;' +
                 '}'
         }
 
