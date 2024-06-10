@@ -35,16 +35,16 @@
             upload.textContent = 'upload files';
             upload.onclick = _ => hidden.click()
 
-            const legend = document.createElement('div');
-            legend.className = 'item';
-            legend.textContent = this.#config.legend + ' ';
-            legend.appendChild(upload);
+            const dragText = document.createElement('div');
+            dragText.className = 'item';
+            dragText.textContent = this.#config.dragText + ' ';
+            dragText.appendChild(upload);
 
             const content = document.createElement('div');
-            content.id = 'legend-area';
+            content.id = 'drag-text-area';
 
             content.appendChild(icon);
-            content.appendChild(legend);
+            content.appendChild(dragText);
 
             const drag = document.createElement('div');
             drag.id = 'drag-area';
@@ -60,7 +60,7 @@
             const textAttr = this.getAttribute('helperText');
 
             const displayDragArea = (show = true) => {
-                const content = this.#config.shadow.getElementById('legend-area');
+                const content = this.#config.shadow.getElementById('drag-text-area');
                 const drag = this.#config.shadow.getElementById('drag-area');
 
                 if (show) {
@@ -73,7 +73,7 @@
             }
 
             this.#config = {
-                legend: textAttr || 'Drag files here or',
+                dragText: textAttr || 'Drag files here or',
                 icon:
                     '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">' +
                         '<g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">' +
@@ -100,7 +100,7 @@
                 },
                 shadow: shadowRoot,
                 style:
-                    ':host #legend-area {' +
+                    ':host #drag-text-area {' +
                         'display: flex;' +
                         'flex-wrap: wrap;' +
                         'justify-content: center;' +
