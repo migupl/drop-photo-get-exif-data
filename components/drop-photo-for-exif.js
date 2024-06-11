@@ -57,7 +57,7 @@
         }
 
         #configure = shadowRoot => {
-            const textAttr = this.getAttribute('helperText');
+            const textAttr = this.getAttribute('drag-text');
 
             const displayDragArea = (show = true) => {
                 const content = this.#config.shadow.getElementById('drag-text-area');

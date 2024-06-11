@@ -26,7 +26,7 @@ A more interesting example could be the integration between images with location
 
 ### Attributes
 
-The Web Component allows a *helperText* attribute with the text to display. The default is "Drop files here".
+The Web Component allows a *drag-text* attribute with the text to display. The default is "Drop files here".
 
 By example, the following code
 
@@ -35,7 +35,7 @@ By example, the following code
     <script src="./components/drop-photo-for-exif.js"></script>
 </head>
 <body>
-    <drop-photo-for-exif helperText="Select your files"></drop-photo-for-exif>
+    <drop-photo-for-exif drag-text="Select your files"></drop-photo-for-exif>
 </body>
 ```
 
