@@ -7,7 +7,7 @@
             super();
             const shadow = this.attachShadow({ mode: 'open' });
 
-            this.#configure(shadow);
+            this.#config = this.#getConfiguration(shadow);
 
             this.#stopPreventDefaultAndBubblingUp();
             this.#config.processFiles();
@@ -56,7 +56,7 @@
             shadow.appendChild(drag);
         }
 
-        #configure = shadowRoot => {
+        #getConfiguration = shadowRoot => {
             const defaults = {
                 backgrounColor: '#E8E8E8',
                 dragText: 'Drag files here or',
@@ -76,7 +76,7 @@
             }
 
             const backgrounColor = this.getAttribute('drag-area-background') || defaults.backgrounColor;
-            this.#config = {
+            return {
                 dragText: this.getAttribute('drag-text') || defaults.dragText,
                 uploadText: this.getAttribute('upload-text') || defaults.uploadText,
                 icon:
