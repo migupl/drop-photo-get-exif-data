@@ -57,7 +57,11 @@
         }
 
         #configure = shadowRoot => {
-            const backgrounColor = this.getAttribute('drag-area-background') || '#E8E8E8';
+            const defaults = {
+                backgrounColor: '#E8E8E8',
+                dragText: 'Drag files here or',
+                uploadText: 'upload files'
+            };
             const displayDragArea = (show = true) => {
                 const content = this.#config.shadow.getElementById('drag-text-area');
                 const drag = this.#config.shadow.getElementById('drag-area');
@@ -71,9 +75,10 @@
                 }
             }
 
+            const backgrounColor = this.getAttribute('drag-area-background') || defaults.backgrounColor;
             this.#config = {
-                dragText: this.getAttribute('drag-text') || 'Drag files here or',
-                uploadText: this.getAttribute('upload-text') || 'upload files',
+                dragText: this.getAttribute('drag-text') || defaults.dragText,
+                uploadText: this.getAttribute('upload-text') || defaults.uploadText,
                 icon:
                     '<svg viewBox="0 0 59 49" fill="none" xmlns="http://www.w3.org/2000/svg">' +
                         `<rect width="40.772121" height="31.674221" x="0.614479" y="12.7783" fill="${backgrounColor}" />` +
