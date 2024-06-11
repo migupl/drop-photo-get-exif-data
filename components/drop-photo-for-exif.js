@@ -57,6 +57,7 @@
         }
 
         #configure = shadowRoot => {
+            const backgrounColor = this.getAttribute('drag-area-background') || '#E8E8E8';
             const displayDragArea = (show = true) => {
                 const content = this.#config.shadow.getElementById('drag-text-area');
                 const drag = this.#config.shadow.getElementById('drag-area');
@@ -75,7 +76,7 @@
                 uploadText: this.getAttribute('upload-text') || 'upload files',
                 icon:
                     '<svg viewBox="0 0 59 49" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-                        '<rect width="40.772121" height="31.674221" x="0.614479" y="12.7783" fill="#E8E8E8" />' +
+                        `<rect width="40.772121" height="31.674221" x="0.614479" y="12.7783" fill="${backgrounColor}" />` +
                         '<path fill-rule="evenodd" clip-rule="evenodd" d="M0.614479 12.7783L6.74988 12.7783L6.74988 14.7158L2.55198 14.7158L2.55198 18.9137L0.614479 18.9137L0.614479 12.7783Z" fill="#000000"></path>' +
                         '<path fill-rule="evenodd" clip-rule="evenodd" d="M39.3644 42.4866L39.3644 38.2887L41.3019 38.2887L41.3019 44.4241L35.1665 44.4241L35.1665 42.4866L39.3644 42.4866Z" fill="#000000"></path>' +
                         '<path fill-rule="evenodd" clip-rule="evenodd" d="M0.614479 38.2887L2.55198 38.2887L2.55198 42.4866L6.74987 42.4866L6.74987 44.4241L0.614479 44.4241L0.614479 38.2887Z" fill="#000000"></path>' +
@@ -109,7 +110,7 @@
                     '}' +
                     '#drag-area {' +
                         'height: 100%;' +
-                        `background: ${ this.getAttribute('drag-area-background') || '#E8E8E8' }` +
+                        `background: ${backgrounColor}` +
                     '}' +
                     '.item {' +
                         'margin: 10px;' +
