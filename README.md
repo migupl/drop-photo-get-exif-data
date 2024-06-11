@@ -28,6 +28,7 @@ A more interesting example could be the integration between images with location
 
 The Web Component allows a *drag-text* attribute with the text to display. The default is "Drop files here".
 Web Component allows the following attributes:
+- *drag-area-background*: the background color of the drag area when dragging files. Default, '#E8E8E8'.
 - *drag-text*: the text for dragging files. Default, 'Drop files here or'.
 - *upload-text*: the text for uploading files. Default, 'upload files'.
 

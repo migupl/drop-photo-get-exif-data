@@ -107,7 +107,7 @@
                     '}' +
                     '#drag-area {' +
                         'height: 100%;' +
-                        'background: #E8E8E8' +
+                        `background: ${ this.getAttribute('drag-area-background') || '#E8E8E8' }` +
                     '}' +
                     '.item {' +
                         'margin: 10px;' +
