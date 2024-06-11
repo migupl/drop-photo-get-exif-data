@@ -32,7 +32,7 @@
             const upload = document.createElement('span');
             upload.role = 'button';
             upload.className = 'upload';
-            upload.textContent = 'upload files';
+            upload.textContent = this.#config.uploadText;
             upload.onclick = _ => hidden.click()
 
             const dragText = document.createElement('div');
@@ -57,8 +57,6 @@
         }
 
         #configure = shadowRoot => {
-            const textAttr = this.getAttribute('drag-text');
-
             const displayDragArea = (show = true) => {
                 const content = this.#config.shadow.getElementById('drag-text-area');
                 const drag = this.#config.shadow.getElementById('drag-area');
@@ -73,7 +71,8 @@
             }
 
             this.#config = {
-                dragText: textAttr || 'Drag files here or',
+                dragText: this.getAttribute('drag-text') || 'Drag files here or',
+                uploadText: this.getAttribute('upload-text') || 'upload files',
                 icon:
                     '<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980.000000 980.000000" preserveAspectRatio="xMidYMid meet">' +
                         '<g transform="translate(0.000000,980.000000) scale(0.100000,-0.100000)" stroke="none">' +
