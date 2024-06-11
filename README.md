@@ -2,21 +2,16 @@
 
 A simple solution for obtaining EXIF data from photos (the main goal), but you can also drop or choose[^1] any kind of files or directories[^2].
 
-
 ## Install
-
-Copy the file */components/drop-photo-for-exif.js* to any directory in your project.
 
 ## Getting started
 
-To get started you need to import the Web Component
+To get started you need to import the Web Component from CDN
 
 ```html
-<head>
-    <script src="./components/drop-photo-for-exif.js"></script>
-</head>
 <body>
     <drop-photo-for-exif></drop-photo-for-exif>
+    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.1.0.min.js"></script>
 </body>
 ```
 
@@ -35,11 +30,9 @@ Web Component allows the following attributes:
 By example, the following code
 
 ```html
-<head>
-    <script src="./components/drop-photo-for-exif.js"></script>
-</head>
 <body>
     <drop-photo-for-exif drag-text="Select your files"></drop-photo-for-exif>
+    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.1.0.min.js"></script>
 </body>
 ```
 
