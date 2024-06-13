@@ -67,10 +67,10 @@
                 const drag = this.#config.shadow.getElementById('drag-area');
 
                 if (show) {
-                    content.style= 'display: none';
+                    content.style = 'display: none';
                     drag.style = 'display: flex';
                 } else {
-                    content.style= 'display: flex';
+                    content.style = 'display: flex';
                     drag.style = 'display: none';
                 }
             }
