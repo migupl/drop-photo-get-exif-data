@@ -56,6 +56,108 @@
             shadow.appendChild(drag);
         }
 
+        #dropFiles = function (afterImageReady = (image, exif) => console.log('Do something after image is ready')
+            , afterFileReady = file => console.log('Do something after file is ready')
+            , afterCompletion = () => console.log('Do something on complete')) {
+
+            const significantMimetypes = {
+                geojson: 'application/geo+json',
+                jfif: 'image/jpeg',
+                jpeg: 'image/jpeg',
+                jpg: 'image/jpeg',
+                pjpeg: 'image/jpeg',
+                pjp: 'image/jpeg',
+                png: 'image/png',
+                tiff: 'image/tiff',
+                tif: 'image/tiff',
+                webp: 'image/webp'
+            };
+
+            let unproccessedItems = 0;
+
+            const exploreDirectoryContent = directory => {
+                ++unproccessedItems
+                directory
+                    .createReader()
+                    .readEntries(processDirectoryContent);
+            }
+
+            const getExifMetadata = file => ExifReader
+                .load(file)
+                .then(exif => {
+                    let data = {
+                        details: exif
+                    };
+
+                    if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
+                        data.location = {
+                            latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
+                            longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
+                        }
+
+                        if (exif.GPSAltitude) {
+                            const [value, divisor] = exif.GPSAltitude.value;
+                            data.location.altitude = value / divisor;
+                        }
+                    }
+
+                    return data
+                })
+
+            const getMimetype = filename => {
+                const ext = filename.split('.').pop();
+                return significantMimetypes[ext] || ''
+            }
+
+            const classifyItem = item => {
+                const isFile = item.lastModified != undefined;
+                const directory = isFile ? undefined : (item?.isDirectory && item) ?? (item?.webkitGetAsEntry().isDirectory && item.webkitGetAsEntry());
+                return {
+                    directory: directory,
+                    file: (item.name && item) ?? (item?.webkitGetAsEntry().isFile && item.getAsFile())
+                }
+            }
+
+            const onFileReady = (file, exif) => {
+                exif ? afterImageReady(file, exif) : afterFileReady(file);
+
+                --unproccessedItems;
+                if (!unproccessedItems) afterCompletion();
+            };
+
+            const processDirectoryContent = entries => {
+                --unproccessedItems
+
+                const subdirectories = entries.filter(entry => entry.isDirectory);
+                process(subdirectories)
+
+                const files = entries.filter(entry => entry.isFile);
+                files.forEach(entryFile =>
+                    entryFile.file(processFile)
+                )
+            }
+
+            const processFile = async file => {
+                ++unproccessedItems
+
+                const typedFile = file.type ? file : new File([file], file.name, { type: getMimetype(file.name) })
+                const exifMetadata = typedFile.type.startsWith('image/') && await getExifMetadata(typedFile);
+
+                onFileReady(typedFile, exifMetadata)
+            }
+
+            const process = items => {
+                for (let item of items) {
+                    const itemType = classifyItem(item);
+                    itemType.directory ? exploreDirectoryContent(itemType.directory) : processFile(itemType.file)
+                }
+            }
+
+            return {
+                process
+            }
+        }
+
         #getConfiguration = shadowRoot => {
             const defaults = {
                 backgrounColor: '#E8E8E8',
@@ -163,7 +265,7 @@
             const emitWhenFileReady = file => emit(new CustomEvent('drop-photo-for-exif:file', eventProperties(file)))
             const emitOnCompleted = () => emit(new CustomEvent('drop-photo-for-exif:completed-batch', eventProperties()))
 
-            dropFiles(emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
+            this.#dropFiles(emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
                 .process(items)
         }
 
@@ -178,108 +280,6 @@
             });
         }
     }
-
-    const dropFiles = function (afterImageReady = (image, exif) => console.log('Do something after image is ready')
-        , afterFileReady = file => console.log('Do something after file is ready')
-        , afterCompletion = () => console.log('Do something on complete')) {
-
-        const significantMimetypes = {
-            geojson: 'application/geo+json',
-            jfif: 'image/jpeg',
-            jpeg: 'image/jpeg',
-            jpg: 'image/jpeg',
-            pjpeg: 'image/jpeg',
-            pjp: 'image/jpeg',
-            png: 'image/png',
-            tiff: 'image/tiff',
-            tif: 'image/tiff',
-            webp: 'image/webp'
-        };
-
-        let unproccessedItems = 0;
-
-        const exploreDirectoryContent = directory => {
-            ++unproccessedItems
-            directory
-                .createReader()
-                .readEntries(processDirectoryContent);
-        }
-
-        const getExifMetadata = file => ExifReader
-            .load(file)
-            .then(exif => {
-                let data = {
-                    details: exif
-                };
-
-                if (exif.GPSLatitude && exif.GPSLatitudeRef && exif.GPSLongitude && exif.GPSLongitudeRef) {
-                    data.location = {
-                        latitude: `${exif.GPSLatitude.description} ${exif.GPSLatitudeRef.value[0]}`,
-                        longitude: `${exif.GPSLongitude.description} ${exif.GPSLongitudeRef.value[0]}`
-                    }
-
-                    if (exif.GPSAltitude) {
-                        const [value, divisor] = exif.GPSAltitude.value;
-                        data.location.altitude = value / divisor;
-                    }
-                }
-
-                return data
-            })
-
-        const getMimetype = filename => {
-            const ext = filename.split('.').pop();
-            return significantMimetypes[ext] || ''
-        }
-
-        const classifyItem = item => {
-            const isFile = item.lastModified != undefined;
-            const directory = isFile ? undefined : (item?.isDirectory && item) ?? (item?.webkitGetAsEntry().isDirectory && item.webkitGetAsEntry());
-            return {
-                directory: directory,
-                file: (item.name && item) ?? (item?.webkitGetAsEntry().isFile && item.getAsFile())
-            }
-        }
-
-        const onFileReady = (file, exif) => {
-            exif ? afterImageReady(file, exif) : afterFileReady(file);
-
-            --unproccessedItems;
-            if (!unproccessedItems) afterCompletion();
-        };
-
-        const processDirectoryContent = entries => {
-            --unproccessedItems
-
-            const subdirectories = entries.filter(entry => entry.isDirectory);
-            process(subdirectories)
-
-            const files = entries.filter(entry => entry.isFile);
-            files.forEach(entryFile =>
-                entryFile.file(processFile)
-            )
-        }
-
-        const processFile = async file => {
-            ++unproccessedItems
-
-            const typedFile = file.type ? file : new File([file], file.name, { type: getMimetype(file.name) })
-            const exifMetadata = typedFile.type.startsWith('image/') && await getExifMetadata(typedFile);
-
-            onFileReady(typedFile, exifMetadata)
-        }
-
-        const process = items => {
-            for (let item of items) {
-                const itemType = classifyItem(item);
-                itemType.directory ? exploreDirectoryContent(itemType.directory) : processFile(itemType.file)
-            }
-        }
-
-        return {
-            process
-        }
-    };
 
     let exifReaderScriptEl = document.createElement('script');
     exifReaderScriptEl.src = exifReaderLib;
