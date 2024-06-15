@@ -40,20 +40,20 @@
             dragText.textContent = this.#config.dragText + ' ';
             dragText.appendChild(upload);
 
-            const content = document.createElement('div');
-            content.id = 'drag-text-area';
-
-            content.appendChild(icon);
-            content.appendChild(dragText);
-
             const drag = document.createElement('div');
             drag.id = 'drag-area';
-            drag.style = 'display: none;';
+
+            drag.appendChild(icon);
+            drag.appendChild(dragText);
+
+            const drop = document.createElement('div');
+            drop.id = 'drop-area';
+            drop.style = 'display: none;';
 
             const shadow = this.#config.shadow;
             shadow.appendChild(style);
-            shadow.appendChild(content);
             shadow.appendChild(drag);
+            shadow.appendChild(drop);
         }
 
         #dropFiles = function (afterImageReady = (image, exif) => console.log('Do something after image is ready')
@@ -165,15 +165,15 @@
                 uploadText: 'upload files'
             };
             const displayDragArea = (show = true) => {
-                const content = this.#config.shadow.getElementById('drag-text-area');
                 const drag = this.#config.shadow.getElementById('drag-area');
+                const drop = this.#config.shadow.getElementById('drop-area');
 
                 if (show) {
-                    content.style = 'display: none';
-                    drag.style = 'display: flex';
-                } else {
-                    content.style = 'display: flex';
                     drag.style = 'display: none';
+                    drop.style = 'display: flex';
+                } else {
+                    drag.style = 'display: flex';
+                    drop.style = 'display: none';
                 }
             }
 
@@ -209,13 +209,13 @@
                 },
                 shadow: shadowRoot,
                 style:
-                    ':host #drag-text-area {' +
+                    ':host #drag-area {' +
                         'display: flex;' +
                         'flex-wrap: wrap;' +
                         'justify-content: center;' +
                         'align-items: center;' +
                     '}' +
-                    '#drag-area {' +
+                    '#drop-area {' +
                         'height: 100%;' +
                         `background: ${backgrounColor}` +
                     '}' +
