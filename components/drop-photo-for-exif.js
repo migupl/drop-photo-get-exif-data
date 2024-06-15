@@ -46,9 +46,15 @@
             drag.appendChild(icon);
             drag.appendChild(dragText);
 
+            const dropText = document.createElement('div');
+            dropText.className = 'item';
+            dropText.textContent = 'Drop files here';
+
             const drop = document.createElement('div');
             drop.id = 'drop-area';
             drop.style = 'display: none;';
+
+            drop.appendChild(dropText)
 
             const shadow = this.#config.shadow;
             shadow.appendChild(style);
@@ -209,7 +215,7 @@
                 },
                 shadow: shadowRoot,
                 style:
-                    ':host #drag-area {' +
+                    ':host #drag-area, :host #drop-area {' +
                         'display: flex;' +
                         'flex-wrap: wrap;' +
                         'justify-content: center;' +
