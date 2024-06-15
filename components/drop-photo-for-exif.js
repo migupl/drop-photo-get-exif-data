@@ -48,7 +48,7 @@
 
             const dropText = document.createElement('div');
             dropText.className = 'item';
-            dropText.textContent = 'Drop files here';
+            dropText.textContent = this.#config.dropText;
 
             const drop = document.createElement('div');
             drop.id = 'drop-area';
@@ -168,6 +168,7 @@
             const defaults = {
                 backgrounColor: '#E8E8E8',
                 dragText: 'Drag files here or',
+                dropText: 'Drop files here',
                 uploadText: 'upload files'
             };
             const displayDragArea = (show = true) => {
@@ -186,6 +187,7 @@
             const backgrounColor = this.getAttribute('drag-area-background') || defaults.backgrounColor;
             return {
                 dragText: this.getAttribute('drag-text') || defaults.dragText,
+                dropText: this.getAttribute('drop-text') || defaults.dropText,
                 uploadText: this.getAttribute('upload-text') || defaults.uploadText,
                 icon:
                     '<svg viewBox="0 0 59 49" fill="none" xmlns="http://www.w3.org/2000/svg">' +

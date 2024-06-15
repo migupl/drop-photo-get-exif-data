@@ -25,6 +25,7 @@ The Web Component allows a *drag-text* attribute with the text to display. The d
 Web Component allows the following attributes:
 - *drag-area-background*: the background color of the drag area when dragging files. Default, '#E8E8E8'.
 - *drag-text*: the text for dragging files. Default, 'Drop files here or'.
+- *drop-text*: the text for dropping files. Default, 'Drop files here'.
 - *upload-text*: the text for uploading files. Default, 'upload files'.
 
 By example, the following code
