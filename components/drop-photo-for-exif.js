@@ -116,12 +116,14 @@
             }
 
             const classifyItem = item => {
-                const isFile = item.lastModified != undefined;
-                const directory = isFile ? undefined : (item?.isDirectory && item) ?? (item?.webkitGetAsEntry().isDirectory && item.webkitGetAsEntry());
-                return {
-                    directory: directory,
-                    file: (item.name && item) ?? (item?.webkitGetAsEntry().isFile && item.getAsFile())
-                }
+                if (item.isDirectory) return { directory: item }
+
+                if (item instanceof File) return { file: item }
+
+                const entry = item?.webkitGetAsEntry()
+                if(entry.isDirectory) return { directory: entry }
+
+                return { file: item.getAsFile() }
             }
 
             const onFileReady = (file, exif) => {
