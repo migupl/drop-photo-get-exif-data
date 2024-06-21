@@ -165,6 +165,36 @@
             }
         }
 
+        #emitEvent = (() => {
+            const emit = event => this.#config.shadow.dispatchEvent(event);
+            const eventProperties = (file, metadata) => {
+                const properties = {
+                    bubbles: true,
+                    composed: true
+                }
+
+                if (metadata) {
+                    properties.detail = {
+                        name: file.name,
+                        image: file,
+                        location: metadata.location,
+                        exif: metadata.details
+                    }
+                } else if (file) {
+                    properties.detail = file
+                }
+
+                return properties
+            }
+            const whenImageReady = (file, exifMetadata) => emit(new CustomEvent('drop-photo-for-exif:image', eventProperties(file, exifMetadata)))
+            const whenFileReady = file => emit(new CustomEvent('drop-photo-for-exif:file', eventProperties(file)))
+            const onCompleted = () => emit(new CustomEvent('drop-photo-for-exif:completed-batch', eventProperties()))
+
+            return {
+                onCompleted, whenFileReady, whenImageReady
+            }
+        })();
+
         #getConfiguration = shadowRoot => {
             const defaults = {
                 backgrounColor: '#E8E8E8',
@@ -257,31 +287,8 @@
         #process = (
             items
         ) => {
-            const emit = event => this.#config.shadow.dispatchEvent(event);
-            const eventProperties = (file, metadata) => {
-                const properties = {
-                    bubbles: true,
-                    composed: true
-                }
 
-                if (metadata) {
-                    properties.detail = {
-                        name: file.name,
-                        image: file,
-                        location: metadata.location,
-                        exif: metadata.details
-                    }
-                } else if (file) {
-                    properties.detail = file
-                }
-
-                return properties
-            }
-            const emitWhenImageReady = (file, exifMetadata) => emit(new CustomEvent('drop-photo-for-exif:image', eventProperties(file, exifMetadata)))
-            const emitWhenFileReady = file => emit(new CustomEvent('drop-photo-for-exif:file', eventProperties(file)))
-            const emitOnCompleted = () => emit(new CustomEvent('drop-photo-for-exif:completed-batch', eventProperties()))
-
-            this.#dropFiles(emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
+            this.#dropFiles(this.#emitEvent.whenImageReady, this.#emitEvent.whenFileReady, this.#emitEvent.onCompleted)
                 .process(items)
         }
     }
