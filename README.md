@@ -6,12 +6,13 @@ A simple solution for obtaining EXIF data from photos (the main goal), but you c
 
 ## Getting started
 
-You can self-hosted by copying the `dist/drop-photo-for-exif-0.1.1.min.js` file or using it from a CDN in the following way
+You can self-hosted by copying the `dist/drop-photo-for-exif-0.2.1.min.js` file or using it from a CDN in the following way
 
 ```html
 <body>
     <drop-photo-for-exif></drop-photo-for-exif>
-    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.2.1.min.js"
+        integrity="sha256-afViuxqvZMcKnkgwAIobBC0ePHM+1mNXkqprLFgzQUU=" crossorigin="anonymous"></script>
 </body>
 ```
 
@@ -34,7 +35,8 @@ By example, the following code
 ```html
 <body>
     <drop-photo-for-exif drag-text="Select your files"></drop-photo-for-exif>
-    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/migupl/drop-photo-get-exif-data/dist/drop-photo-for-exif-0.2.1.min.js"
+        integrity="sha256-afViuxqvZMcKnkgwAIobBC0ePHM+1mNXkqprLFgzQUU=" crossorigin="anonymous"></script>
 </body>
 ```
 
