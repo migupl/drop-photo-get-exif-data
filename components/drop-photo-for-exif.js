@@ -108,6 +108,10 @@
 
                     return data
                 })
+                .catch(err => {
+                    console.warn('Extracting EXIF data error, message:', err.message)
+                    return {}
+                })
 
             const getMimetype = filename => {
                 const ext = filename.split('.').pop();
