@@ -9,7 +9,6 @@
 
             this.#config = this.#getConfiguration(shadow);
 
-            this.#stopPreventDefaultAndBubblingUp();
             this.#config.processFiles();
         }
 
@@ -203,18 +202,25 @@
                     '</svg>',
                 processFiles: () => {
                     this.addEventListener('drop', (event) => {
+                        event.preventDefault()
                         displayDragArea(false)
 
                         const { items } = event.dataTransfer;
-                        this.#process(items);
+                        this.#process(items)
                     })
 
                     this.addEventListener('dragenter', (event) => {
+                        event.preventDefault()
                         displayDragArea()
                     })
 
                     this.addEventListener('dragleave', (event) => {
                         displayDragArea(false)
+                    })
+
+                    this.addEventListener('dragover', (event) => {
+                        event.preventDefault()
+                        displayDragArea()
                     })
                 },
                 shadow: shadowRoot,
@@ -277,17 +283,6 @@
 
             this.#dropFiles(emitWhenImageReady, emitWhenFileReady, emitOnCompleted)
                 .process(items)
-        }
-
-        #stopPreventDefaultAndBubblingUp = () => {
-            const stopEvents = e => {
-                e.stopPropagation();
-                e.preventDefault();
-            };
-
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                this.addEventListener(eventName, stopEvents)
-            });
         }
     }
 
