@@ -286,7 +286,7 @@
             };
 
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                this.addEventListener(eventName, stopEvents, false)
+                this.addEventListener(eventName, stopEvents)
             });
         }
     }
