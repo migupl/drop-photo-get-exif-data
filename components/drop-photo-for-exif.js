@@ -204,6 +204,7 @@
                 backgrounColor: '#E8E8E8',
                 dragText: 'Drag files here or',
                 dropText: 'Drop files here',
+                errorText: 'Sorry, something went wrong. Please try again.',
                 uploadText: 'upload files'
             };
             const displayDragArea = (show = true) => {
@@ -223,6 +224,7 @@
             return {
                 dragText: this.getAttribute('drag-text') || defaults.dragText,
                 dropText: this.getAttribute('drop-text') || defaults.dropText,
+                errorText: this.getAttribute('error-text') || defaults.errorText,
                 uploadText: this.getAttribute('upload-text') || defaults.uploadText,
                 icon:
                     '<svg viewBox="0 0 59 49" fill="none" xmlns="http://www.w3.org/2000/svg">' +
@@ -291,6 +293,7 @@
         #process = (
             items
         ) => {
+            if (0 == items.length) alert(this.#config.errorText)
 
             this.#dropFiles(this.#emitEvent.whenImageReady, this.#emitEvent.whenFileReady, this.#emitEvent.onCompleted)
                 .process(items)

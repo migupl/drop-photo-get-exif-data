@@ -23,9 +23,10 @@ A more interesting example could be the integration between images with location
 
 Web Component allows the following attributes:
 - *drag-area-background*: the background color of the drag area when dragging files. Default, '#E8E8E8'.
-- *drag-text*: the text for dragging files. Default, 'Drag files here or'.
-- *drop-text*: the text for dropping files. Default, 'Drop files here'.
-- *upload-text*: the text for uploading files. Default, 'upload files'.
+- *drag-text*: the text for dragging files. Default, '*Drag files here or*'.
+- *drop-text*: the text for dropping files. Default, '*Drop files here*'.
+- *error-text*: the text for the error message. Default, '*Sorry, something went wrong. Please try again.*'.
+- *upload-text*: the text for uploading files. Default, '*upload files*'.
 
 The text in the drag area is composed of *drag-text* plus *upload-text*.
 
